@@ -17,11 +17,13 @@ def feed(request):
         sort = request.POST.get("sort")
         if sort != "":
             olist = Image.objects.filter(city_id=city,
-                                         image_date__month=today.month).order_by(sort).reverse()
+                                         image_date__month=today.month,
+                                         image_date__day=today.day).order_by(sort).reverse()
     else:
         # 실시간 (기본)
         olist = Image.objects.filter(city_id=city,
-                                     image_date__month=today.month).order_by('image_date').reverse()
+                                     image_date__month=today.month,
+                                     image_date__day=today.day).order_by('image_date').reverse()
 
     # 인기순
     # olist = Image.objects.filter(city_id=city,

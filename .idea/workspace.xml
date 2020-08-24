@@ -22,6 +22,7 @@
     <list default="true" id="ccccab28-49bd-492a-9ce4-3861be1392e2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/feedapp/templates/feed.html" beforeDir="false" afterPath="$PROJECT_DIR$/feedapp/templates/feed.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feedapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/feedapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +104,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="349" y="242" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1598227780697" />
+    <state x="1192" y="278" key="RollbackChangesDialog" timestamp="1598254543163">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1192" y="278" key="RollbackChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1598254543163" />
     <state x="71" y="132" key="SettingsEditor" timestamp="1598227784572">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
