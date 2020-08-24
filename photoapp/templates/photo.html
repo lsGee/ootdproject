@@ -1,17 +1,77 @@
 {% extends "base.html"%}
 {% block title %}
-<!-- 페이지 타이틀명 적어주세여(브라우저 탭부분)-->
+Photo
 {% endblock %}
 
 {% block head %}
 <!-- head에 들어갈 태그들(본인 페이지 전용 css, js 파일 등) 넣어주세여 -->
-<!-- 전체 폰트, 부트스트랩, 제이쿼리 링크는 base.html에 있으니까 안 써줘도 돼요 -->
-<!-- 예시(아래) -->
-<!--{% load static %}-->
-<!--<link rel="stylesheet" type="text/css" href="{% static 'seoul_seg.css' %}"> &ndash;&gt;-->
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'photo.css' %}">
 {% endblock%}
 
 {% block body %}
-<!-- 본문(페이지 body 안에 들어갈 내용)은 여기에! -->
-<!--페이지 공통으로 들어갈 상단탭(?) 부분은 여기선 생략하고 나중에 base.html에 만들기로 해여-->
+{% if imageList %}
+<div class="container">
+  <section>
+    <div class="card" style="width:400px;">
+      <img class="card-img-top" src="{{ imgDetail.image_file.url }}" alt="Card image" style="width:100%">
+        <div class="card-body">
+          <h4 class="card-title">더워요</h4>
+            <div id="showInfo">
+              <img class="infoContent" id="cntImg" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
+              <p class="infoContent" id="cntNum" style="display: inline">{{ imgDetail.image_cnt }}</p>
+              <form method="POST" action="/photo/{{imgDetail.id}}/0/">
+                {% csrf_token %}
+                <button class="like, infoContent" name="like" onclick="clickLike({{ imgDetail.id }})"><img class="but" src="{% static 'images/like.png' %}"></button>
+                <p class="infoContent" id="likeNum" style="display: inline">{{ imgDetail.image_like }}</p>
+              </form>
+              <div class="hideInfo" style="display: inline">
+                <img class="showLike" src="{% static 'images/like.png' %}">
+                <p class="showLike">{{ imgLike.image_like }}</p>
+              </div>
+              <form method="POST" action="/photo/{{imgDetail.id}}/1/">
+                {% csrf_token %}
+                <button class="like, infoContent" name="dislike" onclick="clickDislike({{ imgDetail.id }})"><img class="but" src="{% static 'images/dislike.png' %}"></button>
+                <p class="infoContent" id="dislikeNum" style="display: inline">{{ imgDetail.image_dislike }}</p>
+              </form>
+              <div class="hideInfo" style="display: inline">
+                <img class="showDislike" src="{% static 'images/dislike.png' %}">
+                <p class="showDislike">{{ imgDislike.image_dislike }}</p>
+              </div>
+            </div>
+          <br>
+          <h5>
+            {% if imageList.has_previous %}
+            <a href="http://localhost:8000/photo/{{ imageList.previous_page_number }}/">이전</a>
+            {% endif %}
+            <a href="#" class="">목록</a>
+            {% if imageList.has_next %}
+            <a href="http://localhost:8000/photo/{{ imageList.next_page_number }}/">다음</a>
+            {% endif %}
+          </h5>
+        </div>
+    </div>
+  </section>
+</div>
+{% else %}
+<div style="text-align:center">
+<h1>{{ msg }}</h1>
+</div>
+{% endif %}
+<script>
+    $('document').ready(function() {
+        $('.showLike').hide();
+        $('.showDislike').hide();
+    });
+     function clickLike(id) {
+        location.href = "{% url 'photo' %}"+id+"/"+"0"+"/";
+        $('.like').hide();
+        $('showLike').show();
+     }
+     function clickDislike(id) {
+        location.href = "{% url 'photo' %}"+id+"/"+"1"+"/";
+        $('.like').hide();
+        $('showLike').show();
+     }
+</script>
 {% endblock %}
