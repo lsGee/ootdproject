@@ -32,7 +32,7 @@ OOTD Feed
 <!-- 본문(페이지 body 안에 들어갈 내용)은 여기에! -->
 <!--페이지 공통으로 들어갈 상단탭(?) 부분은 여기선 생략하고 나중에 base.html에 만들기로 해여-->
     <h1>OOTD Feed</h1>
-    <div id="backbtn"><button onclick="">Back</button></div>
+    <button onclick="location.href='{% url "main" %}'">Back</button></div>
     <hr>
     <p>today</p>
 
@@ -57,5 +57,5 @@ OOTD Feed
     <br>
     <hr>
     <div id="showallbtn"><button onclick="">Show past Feed</button></div>
-    <div id="writebtn"><button onclick="">Post my OOTD</button></div>
+    <div id="writebtn"><button onclick="location.href='{% url "upload" %}'">Post my OOTD</button></div>
 {% endblock %}
