@@ -64,12 +64,12 @@ Photo
         $('.showDislike').hide();
     });
      function clickLike(id) {
-        location.href = "{% url 'photo' %}"+id+"/"+"0"+"/";
+<!--        location.href = "{% url 'photo' %}"+id+"/"+"0"+"/";-->
         $('.like').hide();
         $('showLike').show();
      }
      function clickDislike(id) {
-        location.href = "{% url 'photo' %}"+id+"/"+"1"+"/";
+
         $('.like').hide();
         $('showLike').show();
      }

@@ -20,15 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccccab28-49bd-492a-9ce4-3861be1392e2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ootdproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ootdproject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ootdproject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ootdproject/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/photoapp/templates/photo.html" beforeDir="false" afterPath="$PROJECT_DIR$/photoapp/templates/photo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/photoapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/photoapp/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/photoapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/photoapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
