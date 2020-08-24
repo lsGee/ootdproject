@@ -20,13 +20,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccccab28-49bd-492a-9ce4-3861be1392e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/feedapp/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_18/trans_duke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_19/totoro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_20/totoro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_20/trans_duke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_21/totoro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_21/trans_duke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_22/totoro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_22/trans_duke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_24/totoro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_24/trans_duke.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/ootdproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ootdproject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainapp/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feedapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/feedapp/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ootdproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ootdproject/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,8 +55,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/feedapp/views.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/mainapp/models.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/feedapp/views.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/mainapp/views.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1gSrh5ajfylgtPBi8xroxt3klPi" />
@@ -59,7 +69,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/feedapp/migrations" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -77,6 +87,7 @@
       <recent name="C:\Users\mchy3\Desktop\ootdproject\uploadapp\templates" />
     </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>

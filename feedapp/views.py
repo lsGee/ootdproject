@@ -8,5 +8,31 @@ from django.templatetags.static import static
 
 # Create your views here.
 def feed(request):
+    city = int(request.GET['city'][:5])
+    today = date.today()
 
-    return render(request, "feed.html")
+    # 지역 걸러내기(image.city) + 오늘날짜
+    if request.method == "POST":
+        sort = request.POST.get("sort")
+        if sort != "":
+            olist = Image.objects.filter(city_id=city,
+                                         image_date__month=today.month).order_by(sort).reverse()
+    else:
+        # 실시간 (기본)
+        olist = Image.objects.filter(city_id=city,
+                                     image_date__month=today.month).order_by('image_date').reverse()
+
+    # 인기순
+    # olist = Image.objects.filter(city_id=city,
+    #                              image_date__month=today.month,
+    #                              image_date__day=today.day).order_by('image_like').reverse()
+
+    # 조회순
+    # olist = Image.objects.filter(city_id=city,
+    #                              image_date__month=today.month,
+    #                              image_date__day=today.day).order_by('image_cnt').reverse()
+
+    # 과거 피드 더 보기
+
+    context = {"olist": olist}
+    return render(request, 'ootdfeed.html', context)
