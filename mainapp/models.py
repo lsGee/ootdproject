@@ -8,6 +8,8 @@ class Sido(models.Model):
 class City(models.Model):
     city_id = models.IntegerField(primary_key=True)
     city_name = models.CharField(max_length=10,verbose_name="시군구명")
+    city_lat = models.FloatField(default=0.0)
+    city_lng = models.FloatField(default=0.0)
     sido_id = models.ForeignKey(Sido, on_delete=models.CASCADE)
 
 class Image(models.Model):
