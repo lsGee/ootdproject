@@ -4,6 +4,7 @@ from django.template import loader
 from mainapp.models import Sido, City, Image
 from django.core.paginator import Paginator
 from django.templatetags.static import static
+from datetime import date
 
 
 # Create your views here.
@@ -35,4 +36,4 @@ def feed(request):
     # 과거 피드 더 보기
 
     context = {"olist": olist}
-    return render(request, 'ootdfeed.html', context)
+    return render(request, 'feed.html', context)

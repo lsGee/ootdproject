@@ -20,23 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccccab28-49bd-492a-9ce4-3861be1392e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/feedapp/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_18/trans_duke.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_19/totoro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_20/totoro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_20/trans_duke.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_21/totoro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_21/trans_duke.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_22/totoro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_22/trans_duke.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_24/totoro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_24/trans_duke.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ootdproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ootdproject.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_18/totoro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/photo_2020_08_19/trans_duke.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feedapp/templates/feed.html" beforeDir="false" afterPath="$PROJECT_DIR$/feedapp/templates/feed.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/feedapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/feedapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ootdproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ootdproject/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,22 +58,22 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/feedapp/migrations" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/media/photo_2020_08_19" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\i\Desktop\ootdproject\media\photo_2020_08_19" />
+      <recent name="C:\Users\i\Desktop\ootdproject\media\photo_2020_08_18" />
+      <recent name="C:\Users\i\Desktop\ootdproject\feedapp\migrations" />
+      <recent name="C:\Users\i\Desktop\ootdproject" />
+      <recent name="C:\Users\mchy3\Desktop\ootdproject\uploadapp" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\mchy3\Desktop\ootdproject\mainapp\static" />
       <recent name="C:\Users\mchy3\Desktop\ootdproject\ootdproject\static" />
       <recent name="C:\Users\mchy3\Desktop\ootdproject\ootdproject\templates" />
       <recent name="C:\Users\mchy3\Desktop\ootdproject\mainapp\templates" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\uploadapp" />
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\photoapp" />
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\feedapp\static" />
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\mainapp" />
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\uploadapp\templates" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
