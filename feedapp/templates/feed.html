@@ -47,7 +47,7 @@ OOTD Feed
     </form>
 
     {% for odata in olist %}
-        <div class="ootd" onclick="location.href='{% url "photo" %}'">
+        <div class="ootd" onclick="location.href={% url 'photo' %}+{{odata.id}}">
             <div>{{ odata.image_name }}</div>
             <div>{{ odata.image_date }}</div>
             <img src ="{{ odata.image_file.url }}" style='width:150px; height:150px'>
@@ -58,4 +58,8 @@ OOTD Feed
     <hr>
     <div id="showallbtn"><button onclick="">Show past Feed</button></div>
     <div id="writebtn"><button onclick="location.href='{% url "upload" %}'">Post my OOTD</button></div>
+
+    <script>
+
+    </script>
 {% endblock %}
