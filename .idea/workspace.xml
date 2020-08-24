@@ -20,13 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccccab28-49bd-492a-9ce4-3861be1392e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploadapp/static/dropdown.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploadapp/static/image/istockphoto-466098897-170667a.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/ootdproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ootdproject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainapp/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploadapp/templates/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/uploadapp/templates/upload.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,9 +44,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/mainapp/views.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/feedapp/views.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/mainapp/models.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/mainapp/views.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1gSrh5ajfylgtPBi8xroxt3klPi" />
   <component name="ProjectViewState">
@@ -59,22 +58,22 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/uploadapp/static/image" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\i\Desktop\ootdproject\uploadapp\static\image" />
+      <recent name="C:\Users\i\Desktop\ootdproject\uploadapp\static" />
+      <recent name="C:\Users\mchy3\Desktop\ootdproject\uploadapp" />
+      <recent name="C:\Users\mchy3\Desktop\ootdproject\photoapp" />
+      <recent name="C:\Users\mchy3\Desktop\ootdproject\feedapp\static" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\mchy3\Desktop\ootdproject\mainapp\static" />
       <recent name="C:\Users\mchy3\Desktop\ootdproject\ootdproject\static" />
       <recent name="C:\Users\mchy3\Desktop\ootdproject\ootdproject\templates" />
       <recent name="C:\Users\mchy3\Desktop\ootdproject\mainapp\templates" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\uploadapp" />
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\photoapp" />
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\feedapp\static" />
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\mainapp" />
-      <recent name="C:\Users\mchy3\Desktop\ootdproject\uploadapp\templates" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -103,13 +102,13 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="349" y="242" key="FileChooserDialogImpl" timestamp="1598227780697">
+    <state x="349" y="242" key="FileChooserDialogImpl" timestamp="1598242713380">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="349" y="242" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1598227780697" />
-    <state x="71" y="132" key="SettingsEditor" timestamp="1598227784572">
+    <state x="349" y="242" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1598242713380" />
+    <state x="71" y="132" key="SettingsEditor" timestamp="1598244071038">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="71" y="132" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1598227784572" />
+    <state x="71" y="132" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1598244071038" />
   </component>
 </project>

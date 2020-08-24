@@ -7,11 +7,63 @@
 <!-- head에 들어갈 태그들(본인 페이지 전용 css, js 파일 등) 넣어주세여 -->
 <!-- 전체 폰트, 부트스트랩, 제이쿼리 링크는 base.html에 있으니까 안 써줘도 돼요 -->
 <!-- 예시(아래) -->
-<!--{% load static %}-->
-<!--<link rel="stylesheet" type="text/css" href="{% static 'seoul_seg.css' %}"> &ndash;&gt;-->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dropdown.css' %}" xmlns:height="http://www.w3.org/1999/xhtml">
 {% endblock%}
 
 {% block body %}
-<!-- 본문(페이지 body 안에 들어갈 내용)은 여기에! -->
-<!--페이지 공통으로 들어갈 상단탭(?) 부분은 여기선 생략하고 나중에 base.html에 만들기로 해여-->
+<body>
+
+<img
+src="https://media.istockphoto.com/photos/submit-button-picture-id466098897?k=6&m=466098897&s=170667a&w=0&h=hQ7f8Z7xvhbR2yVZN9J0kQ4zO9pmo3RENBq70c4QCHU="
+style="display: block; margin:0 auto;border: 3px solid gold;
+border-radius: 7px;
+-moz-border-radius: 7px;
+-khtml-border-radius: 7px;
+-webkit-border-radius: 7px;
+"/>
+  <center>
+    <button type="button" class="btn btn-outline-success">파일제출 </button>
+    <button type="button" class="btn btn-outline-success">첨부</button>
+  </center>
+<center>
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  <button type="button" class="btn btn-secondary">서울특별시</button>
+  <button type="button" class="btn btn-secondary">경기도</button>
+  <button type="button" class="btn btn-secondary">인천광역시</button>
+  <button type="button" class="btn btn-secondary">강원도</button>
+  <button type="button" class="btn btn-secondary">세종특별자치시</button>
+  <button type="button" class="btn btn-secondary">충청북도</button>
+  <button type="button" class="btn btn-secondary">충청남도</button>
+  <button type="button" class="btn btn-secondary">경상북도</button>
+  <button type="button" class="btn btn-secondary">경상남도</button>
+  <button type="button" class="btn btn-secondary">전라북도</button>
+  <button type="button" class="btn btn-secondary">전라남도</button>
+  <button type="button" class="btn btn-secondary">제주특별자치도</button>
+
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a class="dropdown-item" href="#">서울특별시</a>
+      <a class="dropdown-item" href="#">경기도</a>
+      <a class="dropdown-item" href="#">인천광역시</a>
+      <a class="dropdown-item" href="#">강원도</a>
+      <a class="dropdown-item" href="#">세종특별자치시</a>
+      <a class="dropdown-item" href="#">충청북도</a>
+      <a class="dropdown-item" href="#">충청남도</a>
+      <a class="dropdown-item" href="#">경상북도</a>
+      <a class="dropdown-item" href="#">경상남도</a>
+      <a class="dropdown-item" href="#">전라북도</a>
+      <a class="dropdown-item" href="#">전라남도</a>
+      <a class="dropdown-item" href="#">제주특별자치도</a>
+    </div>
+  </div>
+</div>
+</center>
+ </center>
+
+
+  </body>
 {% endblock %}
