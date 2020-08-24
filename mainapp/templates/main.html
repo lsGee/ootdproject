@@ -18,18 +18,15 @@
 
 {% block body %}
     <section>
-        <!-- <select name="job" style="display:none">
+        <select id="sido" name="sido" onchange="changeSelect()">
             <option value="">시 선택</option>
-            {% for i in sido_list %}
+            <!-- {% for i in sido_list %}
                 <option>{{ i.sido_name }}</option>
-            {% endfor %}
+            {% endfor %} -->
         </select>
-        <select name="job">
+        <select id="city" name="city">
             <option value="">시군구 선택</option>
-            {% for i in city_list %}
-                <option>{{ i.city_name }}</option>
-            {% endfor %}
-        </select> -->
+        </select>
 
         <!--맵 띄우기-->
         <article>
@@ -346,6 +343,25 @@
 
         sigungu.open("GET", "{{ sigungu_geo }}", true);
         sigungu.send();
+    }
+
+
+    // select box
+    {% for i in sido_list %}
+        $("#sido").append("<option value=" + {{ i.sido_id }} + "> {{ i.sido_name }} </option>");
+    {% endfor %}
+
+    function changeSelect() {
+        document.getElementById("city").innerHTML = '<option value="">시군구 선택</option>';
+        var sidoSelect = document.getElementById("sido");
+        
+        if (sidoSelect != ""){
+            var sido_val = Number(sidoSelect.options[sidoSelect.selectedIndex].value);
+            {% for i in city_list %}
+                if({{ i.sido_id_id }} == sido_val)
+                    $("#city").append("<option vlaue={{ i.city_id }}>{{ i.city_name }}</option>");
+            {% endfor %}
+        }
     }
     </script>
 {% endblock %}
