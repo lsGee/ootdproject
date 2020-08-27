@@ -15,38 +15,38 @@ Photo
   <section>
     <div class="card" style="width:400px;">
       <img class="card-img-top" src="{{ imgDetail.image_file.url }}" alt="Card image" style="width:100%">
-        <div class="card-body">
-          <h4 class="card-title">더워요</h4>
+        <div class="card-body" style="text-align: center">
+          <h4 class="card-title"></h4>
             <div id="showInfo">
               <img class="infoContent" id="cntImg" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
               <p class="infoContent" id="cntNum" style="display: inline">{{ imgDetail.image_cnt }}</p>
-              <form method="POST" action="/photo/{{imgDetail.id}}/0/">
+              <form method="POST" action="/photo/{{ imageList.number|add:-1 }}/0/?city={{imgDetail.city_id_id}}">
                 {% csrf_token %}
-                <button class="like, infoContent" name="like" onclick="clickLike({{ imgDetail.id }})"><img class="but" src="{% static 'images/like.png' %}"></button>
+                <button class="like, infoContent" name="like" onclick=""><img class="but" src="{% static 'images/like.png' %}"></button>
                 <p class="infoContent" id="likeNum" style="display: inline">{{ imgDetail.image_like }}</p>
               </form>
-              <div class="hideInfo" style="display: inline">
-                <img class="showLike" src="{% static 'images/like.png' %}">
-                <p class="showLike">{{ imgLike.image_like }}</p>
-              </div>
-              <form method="POST" action="/photo/{{imgDetail.id}}/1/">
+<!--              <div class="hideInfo" style="display: inline">-->
+<!--                <img class="showLike" src="{% static 'images/like.png' %}">-->
+<!--                <p class="showLike">{{ imgLike.image_like }}</p>-->
+<!--              </div>-->
+              <form method="POST" action="/photo/{{ imageList.number|add:-1 }}/1/?city={{imgDetail.city_id_id}}">
                 {% csrf_token %}
-                <button class="like, infoContent" name="dislike" onclick="clickDislike({{ imgDetail.id }})"><img class="but" src="{% static 'images/dislike.png' %}"></button>
+                <button class="like, infoContent" name="dislike" onclick=""><img class="but" src="{% static 'images/dislike.png' %}"></button>
                 <p class="infoContent" id="dislikeNum" style="display: inline">{{ imgDetail.image_dislike }}</p>
               </form>
-              <div class="hideInfo" style="display: inline">
-                <img class="showDislike" src="{% static 'images/dislike.png' %}">
-                <p class="showDislike">{{ imgDislike.image_dislike }}</p>
-              </div>
+<!--              <div class="hideInfo" style="display: inline">-->
+<!--                <img class="showDislike" src="{% static 'images/dislike.png' %}">-->
+<!--                <p class="showDislike">{{ imgDislike.image_dislike }}</p>-->
+<!--              </div>-->
             </div>
           <br>
           <h5>
             {% if imageList.has_previous %}
-            <a href="http://localhost:8000/photo/{{ imageList.previous_page_number }}/">이전</a>
+            <a href="http://localhost:8000/photo/{{ imageList.number|add:-2 }}/?city={{imgDetail.city_id_id}}">이전</a>
             {% endif %}
-            <a href="#" class="">목록</a>
+            <a href="{% url 'feed' %}?city={{ imgDetail.city_id_id }}" class="">목록</a>
             {% if imageList.has_next %}
-            <a href="http://localhost:8000/photo/{{ imageList.next_page_number }}/">다음</a>
+            <a href="http://localhost:8000/photo/{{ imageList.number }}/?city={{imgDetail.city_id_id}}">다음</a>
             {% endif %}
           </h5>
         </div>
@@ -63,15 +63,5 @@ Photo
         $('.showLike').hide();
         $('.showDislike').hide();
     });
-     function clickLike(id) {
-        location.href = "{% url 'photo' %}"+id+"/"+"0"+"/";
-        $('.like').hide();
-        $('showLike').show();
-     }
-     function clickDislike(id) {
-        location.href = "{% url 'photo' %}"+id+"/"+"1"+"/";
-        $('.like').hide();
-        $('showLike').show();
-     }
 </script>
 {% endblock %}
