@@ -7,21 +7,28 @@ from django.templatetags.static import static
 from datetime import date
 
 
-def photo(request, id=0, like=3):
+def photo(request,list ,like=3):
+    city = int(request.GET['city'][:5])
+    # id = request.GET['id']
+    # like = request.GET['image_like']
+    # dislike = request.GET['image_dislike']
     today = date.today()
     try :
-        imgDetail = Image.objects.get(id=id)
-        imageList = Image.objects.filter(city_id_id= imgDetail.city_id_id,
+        # imgDetail = Image.objects.get(id=id)
+        imageList = Image.objects.filter(city_id_id= city,
                                          image_date__month=today.month,
                                          image_date__day=today.day).order_by('image_date').reverse()
         print(imageList)
-        page = request.GET.get('id',imgDetail.id)
-        print(page)
+        imgDetail = imageList[list]
+        id = imgDetail.id
+        page = request.GET.get('page',list+1)
+        print(imgDetail)
         paginator = Paginator(imageList,1)
         imageListpage = paginator.get_page(page)
         print(imageListpage)
         print(imageListpage.number)
         context = { "imageList": imageListpage, "imgDetail": imgDetail }
+
         if request.method == "POST" :
             if like == 0:
                 imgLike = Image.objects.get(id=id)
