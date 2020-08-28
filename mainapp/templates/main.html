@@ -18,20 +18,19 @@
 
 {% block body %}
     <section>
-        <select id="sido" name="sido" onchange="changeSelect()">
-            <option value="">시 선택</option>
-            <!-- {% for i in sido_list %}
-                <option>{{ i.sido_name }}</option>
-            {% endfor %} -->
-        </select>
-        <select id="city" name="city">
-            <option value="">시군구 선택</option>
-        </select>
-
-        <!--맵 띄우기-->
-        <article>
+        <article> <!--맵 띄우기-->
             <div class="name_area"><h3>지역을 선택해 주세요</h3></div>
             <div id="mapid"></div>
+        </article>
+
+        <article class="search-bar">
+            <h3>지역 검색</h3>
+            <select id="sido" name="sido" onchange="changeSelect()">
+                <option value="">시 선택</option>
+            </select>
+            <select id="city" name="city">
+                <option value="">시군구 선택</option>
+            </select>
         </article>
 
         <article class="info">
@@ -45,6 +44,7 @@
             </div>
         </article>
     </section>
+
     <div style="clear:both;"></div>  <!--위치 오류 해결!-->
 
     <script>
@@ -125,9 +125,8 @@
             });
         }
 
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge)
             layer.bringToFront();
-        }
     }
 
     function resetHighlight(e) {
@@ -142,7 +141,6 @@
             
             changeSigungu();
         }
-
     }
 
     // 액션과 함수 매칭!
@@ -270,9 +268,9 @@
                 }).addTo(mymap);
                 
                 // 클릭 시 시군구 팝업창
+                var lat, lng; // 중심좌표 위경도
                 geojson.addTo(mymap).bindPopup(function (layer) {
                     var click_cd = Number(layer.feature.properties.SIG_CD);  // 클릭한 시군구코드
-                    var lat, lng; // 중심좌표 위경도
                     
                     // 클릭한 시군구의 중심좌표 로드
                     {% for i in city_list %}
@@ -286,39 +284,70 @@
                     
                     if((click_cd > click_sido) && (click_cd < (click_sido + 1000))){
                         $(".leaflet-popup.leaflet-zoom-animated").attr("style", "display:block");
-                        {% load static %}
-                        // icon : 날씨아이콘
-                        var icon = "<img src='{% static "images/sun.png" %}' style='width:15px'>"
-                        // msg : 팝업 내용 (+ icon)
+                        {% load static %} // 로딩 아이콘
+                        var icon = "<img src='{% static "images/Rolling.gif" %}' alt='로딩중...' style='width:15px'>";
+                        var best_img = "";  // OOTD 이미지 태그
+                        
+                        // DB에서 이미지 로드
+                        for(i=0; i < {{ image_count }}; i++) {
+                            {% for j in image_list %}
+                                if({{ j.city_id_id }} == click_cd) {
+                                    best_img = `
+                                        <a href="{% url 'photo'%}?id={{ j.id }}">
+                                        <img class='best-pic' src='{{ j.image_file.url }}'>
+                                        </a>`
+                                        ;
+                                    break;
+                                }
+                            {% endfor %}
+                        }
 
-                        // 날씨정보 로드
-
-                        console.log(getWeather(37, 127));
-                        console.log(lat + ", " + lng);
+                        // 해당 지역에 이미지 없을 경우 대체할 이미지
+                        if(best_img == "") {
+                            {% load static %}
+                            best_img = "<img class='best-pic' src='{% static "images/sample_ootd.png" %}'>";
+                        }
 
                         // var msg = "<br>20도<br>" + icon + "맑음<br><form><input type='submit' value='사진보기'></form>"
-                        var msg1 = `<table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">지역</th>
-                                    <td>` + layer.feature.properties.SIG_KOR_NM + `</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">현재 날씨</th>
-                                    <td>` + icon + `맑음</td>
-                                </tr>
-                                <tr><th scope="row">현재 기온</th><td>20˚C</td></tr></tbody></table>`;
-                        {% load static %}
-                        var msg2 = "<img class='best_pic' src='{% static "images/sample_ootd.png" %}'>"
-                        var msg3 = '<a class="more" href="{% url 'feed' %}?city=' + click_cd + '">더보기</a>';
+                        var msg = `
+                            <div class="popup info">
+                                <table class="table table-sm"><tbody>
+                                    <tr>
+                                        <th class="table-secondary" colspan="2">${layer.feature.properties.SIG_KOR_NM}</th>
+                                    </tr>
+                                    <tr id="popup-desc">
+                                        <th class="first-col">현재</th>
+                                        <td>${icon}</td>
+                                    </tr>
+                                    <tr id="popup-temp-h1">
+                                        <th class="first-col">1시간후</th>
+                                        <td>${icon}</td>
+                                    </tr>
+                                    <tr id="popup-temp-h2">
+                                        <th class="first-col">2시간후</th>
+                                        <td>${icon}</td>
+                                    </tr>
+                                </tbody></table>
+                                ${best_img}<br>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Large button group">
+                                    <button type="button" class="btn btn-secondary" onclick="location.href='{% url "feed"%}?city=${click_cd}'">더보기</button>
+                                    <button type="button" class="btn btn-secondary" onclick="location.href='{% url "upload" %}?city=${click_cd}'">사진 올리기</button>
+                            </div>`;
                 
-                        return "<div class='popup'>" + msg1 + msg2 + msg3 + "</div>";
+                        return "<div class='popup'>" + msg + "</div>";
                     } else {
                         $(".leaflet-popup.leaflet-zoom-animated").attr("style", "display:none");
                         $(".name_area > h3").text("초록색 영역 내에서 클릭해 주세요");
                         return "";
                     }
                 });
+
+                // 날씨정보 로드
+                geojson.on("click", function(){
+                    if(document.querySelector("div.popup.info table.table"))
+                        getWeather(lat,lng);
+                })
 
                 // 상단 .name_area에 hover된 시군구명 추가 표시
                 geojson.on("mouseover", function(layer){
@@ -335,7 +364,7 @@
                 });
                 
                 // 더블클릭 시 줌아웃 (HOME버튼과 같은 기능)
-                geojson.on("dblclick", function(){
+                mymap.on("dblclick", function(){
                     mymap.setView([home.lat, home.lng], home.zoom);
                 });
             }
@@ -346,7 +375,7 @@
     }
 
 
-    // select box
+    // select box (search-bar)
     {% for i in sido_list %}
         $("#sido").append("<option value=" + {{ i.sido_id }} + "> {{ i.sido_name }} </option>");
     {% endfor %}
