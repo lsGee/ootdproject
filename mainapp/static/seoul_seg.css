@@ -8,33 +8,69 @@
     display: none;
 }
 
-td, th { width: 250px; text-align: center; }
-article.info {
-    display: block;
-}
-.num.info {
-    display: inline-block;
-    width: 50%;
-    float: left;
+
+/* 지도 시군구 팝업창 */
+div.leaflet-popup-content-wrapper { width: 480px; }
+
+div.popup { width: 480px; }
+
+div.popup.info { display: inline-block; }
+
+div.popup.info table.table { 
+    width: 240px; 
+    margin-right: 10px;
+    height: 180px;
+    float:left; 
     text-align: center;
 }
-span.num { font-size: 35px; }
 
-div.popup {
-    width: 300px;
-    text-align: center;
-}
+div.popup.info table.table * { vertical-align: middle; }
 
-img.best_pic {
+div.popup.info table.table th.first-col { width: 65px; }
+
+#popup-desc, #popup-temp-h1, #popup-temp-h2 { height: 50px; }
+
+img.best-pic {
     width: 180px;
     height: 180px;
+    float:left;
 }
 
-a.more { 
-    float: right; 
-    margin: 80px 20px 80px 10px;
+img.weather-pic {
+    width: 35px;
+    height: 35px;
+}
+
+div.btn-group button {
+    width: 215px;
 }
 
 .name_area {
     text-align: center;
 }
+
+
+/* 지역 선택창 */
+article.search-bar { text-align: center;}
+
+#sido { width: 39%; }
+
+#city { width: 60%; }
+
+
+/* 하단  수치 현황 */
+article.info {
+    display: block;
+}
+
+.num.info {
+    display: inline-block;
+    width: 50%;
+    float: left;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+span.num { font-size: 35px; }
+
+
