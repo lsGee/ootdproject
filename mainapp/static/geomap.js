@@ -41,6 +41,8 @@ L.Control.zoomHome = L.Control.extend({
     },
 });
 
+
+
 // 팝업 정보 띄우기
 // 날씨정보는 weater.js
 function getInfo(layer, img, cd, url) {
@@ -74,6 +76,9 @@ function getInfo(layer, img, cd, url) {
         $("#map-popup").html(msg);
 }
 
+
+
+// 회색영역 클릭 시 팝업창 닫기
 function closePopup() {
     e = event.target;
     var popup_area = document.querySelectorAll("#map-popup *");

@@ -60,12 +60,11 @@ div.popup-area > div > div {
     text-align: center;
 }
 
+
 /* 지도 시군구 팝업창 
 div.leaflet-popup-content-wrapper { width: 480px; }
 
 div.popup { width: 480px; }*/
-
-
 
 div.popup.info { 
     display: inline-block;
