@@ -26,8 +26,9 @@ def photo(request,list ,like=3):
                                              image_date__day=today.day).order_by('image_date').reverse()
         print(imageList)
         imgDetail = imageList[list]
-        imgDetail.image_cnt += 1;
-        imgDetail.save()
+        if like == 3 :
+            imgDetail.image_cnt += 1;
+            imgDetail.save()
         # id = imgDetail.id
         page = request.GET.get('page',list+1)
         print(imgDetail)
