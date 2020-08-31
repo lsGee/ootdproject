@@ -1,5 +1,6 @@
     .container{
         padding: 10px;
+        margin-bottom: 10px;
     }
     .card {
       height: 80%;
@@ -20,6 +21,7 @@
       margin-bottom: 2px;
     }
     .card-img-top {
+      height: 600px;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
     }

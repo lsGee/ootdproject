@@ -9,37 +9,45 @@ from datetime import date
 
 def photo(request,list ,like=3):
     city = int(request.GET['city'][:5])
-    # id = request.GET['id']
+    id = request.GET['id']
+    sort = request.GET['sort']
     # like = request.GET['image_like']
     # dislike = request.GET['image_dislike']
     today = date.today()
+    # imgDetail = Image.objects.get(id=id)
     try :
-        # imgDetail = Image.objects.get(id=id)
-        imageList = Image.objects.filter(city_id_id= city,
-                                         image_date__month=today.month,
-                                         image_date__day=today.day).order_by('image_date').reverse()
+        if sort !="" :
+            imageList = Image.objects.filter(city_id_id= city,
+                                             image_date__month=today.month,
+                                             image_date__day=today.day).order_by(sort).reverse()
+        else:
+            imageList = Image.objects.filter(city_id_id=city,
+                                             image_date__month=today.month,
+                                             image_date__day=today.day).order_by('image_date').reverse()
         print(imageList)
         imgDetail = imageList[list]
-        id = imgDetail.id
+        imgDetail.image_cnt += 1;
+        imgDetail.save()
+        # id = imgDetail.id
         page = request.GET.get('page',list+1)
         print(imgDetail)
         paginator = Paginator(imageList,1)
         imageListpage = paginator.get_page(page)
         print(imageListpage)
         print(imageListpage.number)
-        context = { "imageList": imageListpage, "imgDetail": imgDetail }
+        context = { "imageList": imageListpage, "imgDetail": imgDetail, "sort": sort }
 
         if request.method == "POST" :
             if like == 0:
                 imgLike = Image.objects.get(id=id)
                 imgLike.image_like += 1
                 imgLike.save()
-                context = { "imageList": imageListpage, "imgDetail": imgDetail, "imgLike.image_like": imgLike.image_like }
+                context = { "imageList": imageListpage, "imgDetail": imgDetail, "imgLike.image_like": imgLike.image_like, "sort": sort }
             elif like == 1:
                 imgDislike = Image.objects.get(id=id)
                 imgDislike.image_dislike += 1
                 imgDislike.save()
-                context = { "imageList": imageListpage, "imgDetail": imgDetail, "imgDislike.image_dislike": imgDislike.image_dislike }
+                context = { "imageList": imageListpage, "imgDetail": imgDetail, "imgDislike.image_dislike": imgDislike.image_dislike, "sort": sort }
 
 
     except Image.DoesNotExist :
