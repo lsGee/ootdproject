@@ -47,7 +47,8 @@ OOTD Feed
     </form>
 
     {% for odata in olist %}
-        <div class="ootd" onclick="location.href={% url 'photo' %}+{{ odata.id }}">
+        <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ odata.city_id_id }}' "
+>
             <div>{{ odata.image_name }}</div>
             <img src ="{{ odata.image_file.url }}" style='width:150px; height:150px'>
             <div>{{ odata.image_date }}</div>
@@ -56,10 +57,20 @@ OOTD Feed
 
     <br>
     <hr>
-    <div id="showallbtn"><button onclick="">Show past Feed</button></div>
+    <div id="showallbtn"><button onclick="showAllFeed()">Show past Feed</button></div>
     <div id="writebtn"><button onclick="location.href='{% url "upload" %}'">Post my OOTD</button></div>
 
     <script>
+        function showAllFeed(){
+            var params = getUrlParams();
+            var city = params.city;
+            location.href='{% url "feedall" %}?city='+city;
 
+        }
+        function getUrlParams() {
+            var params = {};
+            window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+            return params;
+        }
     </script>
 {% endblock %}
