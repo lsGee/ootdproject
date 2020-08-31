@@ -58,7 +58,7 @@ OOTD Feed
     <br>
     <hr>
     <div id="showallbtn"><button onclick="showAllFeed()">Show past Feed</button></div>
-    <div id="writebtn"><button onclick="location.href='{% url "upload" %}'">Post my OOTD</button></div>
+    <div id="writebtn"><button onclick="goUpload()">Post my OOTD</button></div>
 
     <script>
         function showAllFeed(){
@@ -66,6 +66,11 @@ OOTD Feed
             var city = params.city;
             location.href='{% url "feedall" %}?city='+city;
 
+        }
+        function goUpload(){
+            var params = getUrlParams();
+            var city = params.city;
+            location.href='{% url "upload" %}?city='+city;
         }
         function getUrlParams() {
             var params = {};
