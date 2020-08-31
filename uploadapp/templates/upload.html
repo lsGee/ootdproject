@@ -1,6 +1,6 @@
 {% extends "base.html"%}
 {% block title %}
-<!-- 페이지 타이틀명 적어주세여(브라우저 탭부분)-->
+upload ootd
 {% endblock %}
 
 {% block head %}
@@ -10,8 +10,60 @@
 <!--{% load static %}-->
 <!--<link rel="stylesheet" type="text/css" href="{% static 'seoul_seg.css' %}"> &ndash;&gt;-->
 {% endblock%}
-
 {% block body %}
-<!-- 본문(페이지 body 안에 들어갈 내용)은 여기에! -->
-<!--페이지 공통으로 들어갈 상단탭(?) 부분은 여기선 생략하고 나중에 base.html에 만들기로 해여-->
+<body>
+<img
+src="https://media.istockphoto.com/photos/submit-button-picture-id466098897?k=6&m=466098897&s=170667a&w=0&h=hQ7f8Z7xvhbR2yVZN9J0kQ4zO9pmo3RENBq70c4QCHU="
+style="display: block; margin:0 auto;border: 3px solid gold;
+border-radius: 7px;
+-moz-border-radius: 7px;
+-khtml-border-radius: 7px;
+-webkit-border-radius: 7px;
+"/>
+<center>
+
+    {% if upload.photo %}
+        <h2>작성자 이름 : {{ image.image_name }}</h2>
+        <p>path :{{ image.image_file.path }}</p>
+        <p>url : {{ image.image_file.url }}</p>
+        <img src="{{ image.image_file.url }}" width="200" alt="">
+
+    {% else %}
+
+        <form method="post"  action="{% url 'upload' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>사진제목 : <input type="text" name="image_name"></p>
+            <input type="file" name="image_file">
+            <input type="submit" value="전송.">
+        </form>
+    {% endif %}
+</center><center>
+        <article class="search-bar">
+            <select id="sido" name="sido" onchange="changeSelect()">
+            <option value="">시 선택</option>
+        </select>
+        <select id="city" name="city">
+            <option value="">시군구 선택</option>
+        </select>
+    </article>
+
+    <script>
+        // select box (search-bar)
+        {% for i in sido_list %}
+            $("#sido").append("<option value=" + {{ i.sido_id }} + "> {{ i.sido_name }} </option>");
+        {% endfor %}
+
+        function changeSelect() {
+            document.getElementById("city").innerHTML = '<option value="">시군구 선택</option>';
+            var sidoSelect = document.getElementById("sido");
+
+            if (sidoSelect != ""){
+                var sido_val = Number(sidoSelect.options[sidoSelect.selectedIndex].value);
+                {% for i in city_list %}
+                    if({{ i.sido_id_id }} == sido_val)
+                        $("#city").append("<option vlaue={{ i.city_id }}>{{ i.city_name }}</option>");
+                {% endfor %}
+        }
+    </script>
+    </center>
 {% endblock %}
