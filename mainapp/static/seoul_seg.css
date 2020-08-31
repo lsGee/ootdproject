@@ -1,20 +1,76 @@
-#mapid {
+article.map-area { height: 670px; }
+
+div.map-area, div.popup-area > div {
     width: 100%;
     height: 670px;
-    background: white;
 }
+
+#mapid { background-color: white; z-index: 1; }
 
 .leaflet-tile-container {
     display: none;
 }
 
+#map-cover {
+    display: none;
+    background-color: black; 
+    opacity: 0.5;
+    z-index: 2;
+    position: relative;
+    top: -670px;
+}
 
-/* 지도 시군구 팝업창 */
+div.popup-area {
+    display: none;
+    z-index: 3;
+    position: relative;
+    top: -1340px;
+}
+
+div.popup-area > div { display: table; }
+
+div.popup-area > div > div { 
+    width: 670px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#map-popup {
+    background-color: white;
+    width: 480px;
+    height: 300px;
+    margin: 0 auto;
+    opacity: 1.0;
+}
+
+#map-popup > div { 
+    display: table; 
+    width: 480px;
+    height: 300px;
+}
+
+#map-popup > div > div { 
+    display: table-cell; 
+    vertical-align: middle;
+}
+
+.leaflet-popup.leaflet-zoom-animated { display: none; }
+
+.name-area {
+    text-align: center;
+}
+
+/* 지도 시군구 팝업창 
 div.leaflet-popup-content-wrapper { width: 480px; }
 
-div.popup { width: 480px; }
+div.popup { width: 480px; }*/
 
-div.popup.info { display: inline-block; }
+
+
+div.popup.info { 
+    display: inline-block;
+    margin: 0 25px;
+}
 
 div.popup.info table.table { 
     width: 240px; 
@@ -26,7 +82,7 @@ div.popup.info table.table {
 
 div.popup.info table.table * { vertical-align: middle; }
 
-div.popup.info table.table th.first-col { width: 65px; }
+div.popup.info table.table th.first-col { width: 68px; }
 
 #popup-desc, #popup-temp-h1, #popup-temp-h2 { height: 50px; }
 
@@ -41,13 +97,7 @@ img.weather-pic {
     height: 35px;
 }
 
-div.btn-group button {
-    width: 215px;
-}
-
-.name_area {
-    text-align: center;
-}
+div.btn-group button { width: 215px; }
 
 
 /* 지역 선택창 */
@@ -59,9 +109,7 @@ article.search-bar { text-align: center;}
 
 
 /* 하단  수치 현황 */
-article.info {
-    display: block;
-}
+article.info { display: block; }
 
 .num.info {
     display: inline-block;

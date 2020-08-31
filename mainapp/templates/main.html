@@ -12,15 +12,21 @@
         crossorigin=""></script>
     {% load static %}
     <script type="text/javascript" src="{% static 'weather.js' %}"></script>
-    {% load static %}
+    <script type="text/javascript" src="{% static 'geomap.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'seoul_seg.css' %}">
 {% endblock%}
 
 {% block body %}
     <section>
-        <article> <!--맵 띄우기-->
-            <div class="name_area"><h3>지역을 선택해 주세요</h3></div>
-            <div id="mapid"></div>
+        <article class="map-area">
+            <div class="name-area"><h3>지역을 선택해 주세요</h3></div>
+            <div>
+                <div id="mapid" class="map-area"></div>
+                <div id="map-cover" class="map-area"></div>
+                <div class="popup-area" onclick=closePopup()>
+                    <div><div><div id="map-popup"></div></div></div>
+                </div>
+            </div>
         </article>
 
         <article class="search-bar">
@@ -48,8 +54,11 @@
     <div style="clear:both;"></div>  <!--위치 오류 해결!-->
 
     <script>
+    var geojson;
+    var click_sido; // 클릭한 시도코드 넣어줄 변수
+
     // 지도 뿌리기
-    var mymap = L.map('mapid', {
+    const mymap = L.map('mapid', {
             scrollWheelZoom: false,
             dragging: false,
             zoomControl: false,
@@ -63,10 +72,8 @@
         id: 'mapbox.streets'
     }).addTo(mymap);
 
-    let geojson;
-    let click_sido; // 클릭한 시도코드 넣어줄 변수
-    // 초기화면은 시도 영역 기준!
-    changeSido();
+    
+    changeSido(); // 초기화면
 
     // 선택한 시군구만 컬러 강조 (마지막이 기본값)
     function getColor(d) {
@@ -105,21 +112,21 @@
     // hover 시 면적(시도)/경계선(시군구) 강조
     function highlightFeature(e) {
         var layer = e.target;
-        gggg = e.target;
+        var d = Number(layer.feature.properties.SIG_CD);
 
         if(mymap.getZoom() < 8)
             layer.setStyle({
                 fillColor: "#99e052",
-                weight: 5,
+                weight: 3,
                 color: '',
                 dashArray: '',
                 fillOpacity: 0.7
             });
         else {
-            var lcolor = mymap.getZoom() < 8 ? '#b3b3b3' : '#73ae22';
+            var zcolor = (d > click_sido) && (d < (click_sido + 1000)) ? '#73ae22': "#d9d9d9";
             layer.setStyle({
-                weight: 5,
-                color: lcolor,
+                weight: 2,
+                fillColor: zcolor,
                 dashArray: '',
                 fillOpacity: 0.7
             });
@@ -162,54 +169,10 @@
     });
 
 
-    // 지도 줌아웃 버튼 (홈버튼)
+    // 지도 홈버튼(줌아웃)
     var home = { lat: 35.85, lng: 127.9, zoom: 7};
-
-    L.Control.zoomHome = L.Control.extend({
-        options: {
-            position: 'topright',
-            {% load static %}
-            zoomHomeText: "<img src='{% static "images/sun.png"%}' alt='Home' style='width:15px'>",
-            zoomHomeTitle: 'Zoom home'
-        },
-
-        onAdd: function (map) {
-            var controlName = 'gin-control-zoom',
-                container = L.DomUtil.create('div', controlName + ' leaflet-bar'),
-                options = this.options;
-
-            this._zoomHomeButton = this._createButton(options.zoomHomeText, options.zoomHomeTitle,
-            controlName + '-home', container, this._zoomHome);
-
-            return container;
-        },
-
-        onRemove: function (map) {
-            map.off('zoomend zoomlevelschange', this._updateDisabled, this);
-        },
-
-        _zoomHome: function (e) {
-            mymap.setView([home.lat, home.lng], home.zoom);
-        },
-
-        _createButton: function (html, title, className, container, fn) {
-            var link = L.DomUtil.create('a', className, container);
-            link.innerHTML = html;
-            link.href = '#';
-            link.title = title;
-
-            L.DomEvent.on(link, 'mousedown dblclick', L.DomEvent.stopPropagation)
-                .on(link, 'click', L.DomEvent.stop)
-                .on(link, 'click', fn, this)
-                .on(link, 'click', this._refocusOnMap, this);
-
-            return link;
-        },
-
-
-    });
-    // add the new control to the map
-    var zoomHome = new L.Control.zoomHome();
+    var zoomHome = new L.Control.zoomHome();  // geomap.js
+    zoomHome.home = home;
     zoomHome.addTo(mymap);
 
 
@@ -218,16 +181,16 @@
     // 시도 기준 구획 나누기
     function changeSido() {
         var xhr = new XMLHttpRequest();
-        let geo_sido
+        var data  // 시도 geojson 데이터
         xhr.onload =  function() {
             if(xhr.status == 200) {
-                geo_sido = JSON.parse(xhr.responseText);
-                geojson = L.geoJson(geo_sido, {
+                data = JSON.parse(xhr.responseText);
+                geojson = L.geoJson(data, {
                     style: style,
                     onEachFeature: onEachFeature
                 }).addTo(mymap);
 
-                // 해당 구역 시도코드 받아온당
+                // 해당 구역 시도코드 받아오기
                 geojson.on("click", function(layer){
                     click_sido = Number(layer.layer.feature.properties.CTPRVN_CD)*1000;
                 });
@@ -241,17 +204,16 @@
                 //     this.closePopup();
                 // });
                 
-                // 상단 .name_area에 hover된 시도명 표시
+                // 상단 .name-area에 hover된 시도명 표시
                 geojson.on("mouseover", function(layer){
                     hover_sido = layer.layer.feature.properties.CTP_KOR_NM;
-                    $(".name_area > h3").text(hover_sido);
+                    $(".name-area > h3").text(hover_sido);
                 });
                 geojson.on("mouseout", function(){
-                    $(".name_area > h3").text("지역을 선택해 주세요");
+                    $(".name-area > h3").text("지역을 선택해 주세요");
                 });
             }
         }
-
         xhr.open("GET", "{{ sido_geo }}", true);
         xhr.send();
     }
@@ -267,78 +229,49 @@
                     onEachFeature: onEachFeature
                 }).addTo(mymap);
                 
-                // 클릭 시 시군구 팝업창
                 var lat, lng; // 중심좌표 위경도
+                // 클릭 시 시군구 팝업
                 geojson.addTo(mymap).bindPopup(function (layer) {
                     var click_cd = Number(layer.feature.properties.SIG_CD);  // 클릭한 시군구코드
-                    
+                    var url = [
+                        '{% url "feed"%}?city=' + click_cd, 
+                        '{% url "upload" %}?city=' + click_cd
+                        ];
+                        
                     // 클릭한 시군구의 중심좌표 로드
                     {% for i in city_list %}
                         if({{ i.city_id }} == click_cd) {
                             lat = {{ i.city_lat }};
                             lng = {{ i.city_lng }};
-                            console.log(lat + ", " + lng);
+                            // console.log(lat + ", " + lng);
                             L.marker([lat, lng]).addTo(mymap);
                         }
                     {% endfor %}
                     
                     if((click_cd > click_sido) && (click_cd < (click_sido + 1000))){
-                        $(".leaflet-popup.leaflet-zoom-animated").attr("style", "display:block");
-                        {% load static %} // 로딩 아이콘
-                        var icon = "<img src='{% static "images/Rolling.gif" %}' alt='로딩중...' style='width:15px'>";
-                        var best_img = "";  // OOTD 이미지 태그
+                        var img = {
+                            spinner: "<img src='{% static "images/Rolling.gif" %}' alt='로딩중...' style='width:15px'>",
+                            best_img: "<img class='best-pic' src='{% static "images/sample_ootd.png" %}'>"
+                        };
                         
-                        // DB에서 이미지 로드
-                        for(i=0; i < {{ image_count }}; i++) {
+                        // DB에서 best_img 로드
+                        for(i = 0; i < {{ image_count }}; i++) {
                             {% for j in image_list %}
                                 if({{ j.city_id_id }} == click_cd) {
-                                    best_img = `
+                                    img.best_img = `
                                         <a href="{% url 'photo'%}?id={{ j.id }}">
-                                        <img class='best-pic' src='{{ j.image_file.url }}'>
-                                        </a>`
-                                        ;
+                                            <img class='best-pic' src='{{ j.image_file.url }}'>
+                                        </a>`;
                                     break;
                                 }
                             {% endfor %}
                         }
 
-                        // 해당 지역에 이미지 없을 경우 대체할 이미지
-                        if(best_img == "") {
-                            {% load static %}
-                            best_img = "<img class='best-pic' src='{% static "images/sample_ootd.png" %}'>";
-                        }
-
-                        // var msg = "<br>20도<br>" + icon + "맑음<br><form><input type='submit' value='사진보기'></form>"
-                        var msg = `
-                            <div class="popup info">
-                                <table class="table table-sm"><tbody>
-                                    <tr>
-                                        <th class="table-secondary" colspan="2">${layer.feature.properties.SIG_KOR_NM}</th>
-                                    </tr>
-                                    <tr id="popup-desc">
-                                        <th class="first-col">현재</th>
-                                        <td>${icon}</td>
-                                    </tr>
-                                    <tr id="popup-temp-h1">
-                                        <th class="first-col">1시간후</th>
-                                        <td>${icon}</td>
-                                    </tr>
-                                    <tr id="popup-temp-h2">
-                                        <th class="first-col">2시간후</th>
-                                        <td>${icon}</td>
-                                    </tr>
-                                </tbody></table>
-                                ${best_img}<br>
-                            </div>
-                            <div class="btn-group" role="group" aria-label="Large button group">
-                                    <button type="button" class="btn btn-secondary" onclick="location.href='{% url "feed"%}?city=${click_cd}'">더보기</button>
-                                    <button type="button" class="btn btn-secondary" onclick="location.href='{% url "upload" %}?city=${click_cd}'">사진 올리기</button>
-                            </div>`;
-                
-                        return "<div class='popup'>" + msg + "</div>";
+                        getInfo(layer, img, click_cd, url);  // geomap.js
+                        return "";
                     } else {
                         $(".leaflet-popup.leaflet-zoom-animated").attr("style", "display:none");
-                        $(".name_area > h3").text("초록색 영역 내에서 클릭해 주세요");
+                        $(".name-area > h3").text("초록색 영역 내에서 클릭해 주세요");
                         return "";
                     }
                 });
@@ -346,21 +279,21 @@
                 // 날씨정보 로드
                 geojson.on("click", function(){
                     if(document.querySelector("div.popup.info table.table"))
-                        getWeather(lat,lng);
-                })
-
-                // 상단 .name_area에 hover된 시군구명 추가 표시
+                        getWeather(lat, lng);  // weather.js
+                });
+                
+                // 상단 .name-area에 hover된 시군구명 추가 표시
                 geojson.on("mouseover", function(layer){
                     var hover_cd = Number(layer.layer.feature.properties.SIG_CD);
 
                     if((hover_cd > click_sido) && (hover_cd < (click_sido + 1000))) {
                         hover_city = layer.layer.feature.properties.SIG_KOR_NM;
                         if(hover_sido != hover_city)  // 세종시..
-                            $(".name_area > h3").append(" " + hover_city);
+                            $(".name-area > h3").append(" " + hover_city);
                     }
                 });
                 geojson.on("mouseout", function(layer){
-                    $(".name_area > h3").text(hover_sido);
+                    $(".name-area > h3").text(hover_sido);
                 });
                 
                 // 더블클릭 시 줌아웃 (HOME버튼과 같은 기능)
@@ -369,7 +302,6 @@
                 });
             }
         }
-
         sigungu.open("GET", "{{ sigungu_geo }}", true);
         sigungu.send();
     }
