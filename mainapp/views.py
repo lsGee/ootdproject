@@ -4,24 +4,24 @@ from django.template import loader
 from mainapp.models import Sido, City, Image
 from django.core.paginator import Paginator
 from django.templatetags.static import static
+from datetime import date
+from django.db.models import Sum
 
 # Create your views here.
 def main(request) :
-    # cityId_tlist = list(City.objects.values_list('city_id').distinct())
-    # cityId_list = []
-    # for i in cityId_tlist:
-    #     cityId_list.append(i[0])
-    #
-    # for i in cityId_list:
-    #     Image.objects.filter(city_id=i).order_by(image_cnt)[0]
+    today = date.today()
+    todayImg = Image.objects.filter(image_date__month=today.month, image_date__day=today.day)
+    today_like = todayImg.aggregate(Sum("image_like"))["image_like__sum"]
+    today_dislike = todayImg.aggregate(Sum("image_dislike"))["image_dislike__sum"]
 
     context = {
         'sido_geo': static("sido.geojson"),
         'sigungu_geo': static("sigungu.geojson"),
         'sido_list': Sido.objects.all(),
         'city_list': City.objects.all(),
-        'image_list': Image.objects.all().order_by("city_id", "image_cnt"),
-        'image_count': Image.objects.count()
+        'image_list': todayImg.order_by("city_id", "image_cnt"),
+        'image_count': todayImg.count(),
+        'image_plike': int(today_like/(today_dislike + today_like)*100)
     }
 
     return render(request, "main.html", context)

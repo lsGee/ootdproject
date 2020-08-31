@@ -42,11 +42,11 @@
         <article class="info">
             <div class="num info">
                 <p>오늘의 날씨요정은,</p>
-                <p><span class="num">100</span>명</p>
+                <p><span class="num">{{ image_count }}</span>명</p>
             </div>
             <div class="num info">
                 <p>오늘의 #OOTD 정확도는,</p>
-                <p><span class="num">100</span>명</p>
+                <p><span class="num">{{ image_plike }}</span>%</p>
             </div>
         </article>
     </section>
@@ -245,13 +245,11 @@
                             lng = {{ i.city_lng }};
                         }
                     {% endfor %}
-
-                    console.log(lat,lng);
                     
                     if((click_cd > click_sido) && (click_cd < (click_sido + 1000))){
                         var img = {
                             spinner: "<img src='{% static "images/Rolling.gif" %}' alt='로딩중...' style='width:15px'>",
-                            best_img: "<img class='best-pic' src='{% static "images/sample_ootd.png" %}'>"
+                            best_img: "<div class='best-pic'><div>"+ layer.feature.properties.SIG_KOR_NM +"의 OOTD가<br>아직 없어요</div></div>"
                         };
                         
                         // DB에서 best_img 로드
@@ -259,7 +257,7 @@
                             {% for j in image_list %}
                                 if({{ j.city_id_id }} == click_cd) {
                                     img.best_img = `
-                                        <a href="{% url 'photo'%}?city={{ j.id }}">
+                                        <a href="{% url 'photo'%}{{forloop.counter0}}/?city={{ j.city_id_id }}">
                                             <img class='best-pic' src='{{ j.image_file.url }}'>
                                         </a>`;
                                     break;
