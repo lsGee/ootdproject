@@ -85,10 +85,21 @@ div.popup.info table.table th.first-col { width: 68px; }
 
 #popup-desc, #popup-temp-h1, #popup-temp-h2 { height: 50px; }
 
-img.best-pic {
+.best-pic {
     width: 180px;
     height: 180px;
     float:left;
+}
+
+div.best-pic {
+    border: 0.02rem solid #d9d9d9;
+    text-align: center;
+    display: table;
+}
+
+div.best-pic > div {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 img.weather-pic {
