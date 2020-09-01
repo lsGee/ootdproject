@@ -32,36 +32,97 @@ OOTD Feed
 <!-- 본문(페이지 body 안에 들어갈 내용)은 여기에! -->
 <!--페이지 공통으로 들어갈 상단탭(?) 부분은 여기선 생략하고 나중에 base.html에 만들기로 해여-->
     <h1>OOTD Feed</h1>
-    <button onclick="location.href='{% url "main" %}'">Back</button></div>
+    <div>
+        <button id="backbtn" onclick="location.href='{% url "main" %}'">Back</button>
+        <button id="writebtn" onclick="goUpload()">Post my OOTD</button>
+        <p id="today"></p>
+        <p>now</p>
+        <p id="lat">{{ city.city_lat }}</p>
+        <p id="lng">{{ city.city_lng }}</p>
+    </div>
     <hr>
-    <p>today</p>
 
-    <form method="POST" action="">
+    <p id="sortYN" style="display:none">{{ sort }}</p>
+<!--    <p id="allYN" style="display:none"></p>-->
+
+    <form method="POST">
         {% csrf_token %}
-        <select name="sort" onchange="this.form.submit()">
+        <select id="select" name="sort" onchange="this.form.submit()">
             <option value="">정렬방법을 선택해주세요:</option>
-            <option value="image_cnt">조회순</option>
-            <option value="image_like">좋아요순</option>
-            <option value="image_date">최신순</option>
+            <option id="image_cnt" value="image_cnt">조회순</option>
+            <option id="image_like" value="image_like">좋아요순</option>
+            <option id="image_date" value="image_date">최신순</option>
         </select>
     </form>
 
-    {% for odata in olist %}
-        <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ odata.city_id_id }}' "
->
-            <div>{{ odata.image_name }}</div>
-            <img src ="{{ odata.image_file.url }}" style='width:150px; height:150px'>
-            <div>{{ odata.image_date }}</div>
-        </div>
-    {% endfor %}
-
-    <br>
+    <div>
+        {% for odata in olist %}
+            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ odata.city_id_id }}&id={{odata.id}}&sort={{sort}}'">
+                <div>{{ odata.image_name }}</div>
+                <img src ="{{ odata.image_file.url }}" style='width:150px; height:150px'>
+                <div>조회수:{{ odata.image.cnt }} 좋아요:{{ odata.image_like }}</div>
+                <div>{{ odata.image_date }}</div>
+            </div>
+        {% endfor %}
+        <br clear="all">
+    </div>
     <hr>
+
+    <p id="endOfToday">오늘의 OOTD는 여기까지 입니다. 과거의 OOTD를 보고 싶으면 버튼을 눌러주세요.</p>
     <div id="showallbtn"><button onclick="showAllFeed()">Show past Feed</button></div>
-    <div id="writebtn"><button onclick="goUpload()">Post my OOTD</button></div>
+
+    <div id="all" >
+        {% for adata in alist %}
+            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ adata.city_id_id }}&id={{adata.id}}&sort={{sort}}'">
+                <div>{{ adata.image_name }}</div>
+                <img src ="{{ adata.image_file.url }}" style='width:150px; height:150px'>
+                <div>조회수:{{ odata.image.cnt }} 좋아요:{{ odata.image_like }}</div>
+                <div>{{ adata.image_date }}</div>
+            </div>
+        {% endfor %}
+        <br clear="all">
+    </div>
+    <hr>
+
+
+    <div style="clear:both"></div>
 
     <script>
+        $(document).ready(function(){
+            // today 설정
+            today = new Date();
+            document.getElementById('today').innerText = "today: "+today.getFullYear()+"."
+                                                    +(today.getMonth()+1)+"."+today.getDate();
+            // selected box 설정
+            text = $('#sortYN').text();
+            if(text == "image_cnt"){
+                $('#image_cnt').prop('selected', 'selected')
+            }else if(text == "image_like"){
+                $('#image_like').prop('selected', 'selected')
+            }else if(text == "image_date"){
+                $('#image_date').prop('selected', 'selected')
+            }
+
+            // today 날씨
+            const API_KEY = '0c584632a7b7d1d11a962fcc005458c6';
+
+            function getURL(lat, lon){
+                var weatherURL = "https://api.openweathermap.org/data/2.5/onecall";
+                weatherURL += "?lat=" + lat + "&lon=" + lon;
+                weatherURL += "&exclude=" + "minutely,daily";
+                weatherURL += "&lang=kr";
+                weatherURL += "&units=metric";
+                weatherURL += "&appid="+API_KEY;
+
+                return weatherURL;
+            }
+            lat = $('#lat').text();
+            lng = $('#lng').text();
+            console.log(getURL(lat, lng));
+        })
+
         function showAllFeed(){
+            //$('#all').css('display', 'block');
             var params = getUrlParams();
             var city = params.city;
             location.href='{% url "feedall" %}?city='+city;
