@@ -1,4 +1,6 @@
-article.map-area { height: 800px; }
+section { overflow: hidden;  }
+
+/* article.map-area { height: 800px; } */
 
 h2 { text-align: center; }
 
@@ -137,13 +139,43 @@ span.num { font-size: 35px; }
 
 
 /* 튜토리얼 영역 */
-/* article.tutorial-area { 
-    
-    background-color: black; 
-    opacity: 0.5;
+section > div:nth-child(2) { position: relative; }
+
+div.tutorial-area { 
+    visibility: hidden;
+    /* background-color: black; */
+    /* opacity: 0.5; */
     z-index: 3;
     position: relative;
-    top: 0%;
+    top: 0px;
     width: 100%;
-    height: 800;
- } */
+}
+
+div.tutorial.tutorial-map, div.tutorial.tutorial-search { 
+    position: relative; 
+    width: 250px;
+    text-align: center;
+    background-color: lightgrey;
+}
+
+
+/* div.tutorial-search, div.tutorial-map { border: 0.07rem dashed blue }
+
+div.tutorial-map > div { 
+    border: 0.1rem solid white;
+    background-color: yellowgreen; 
+    position: relative;
+    width: 25%;
+    margin: 10px;
+    text-align: center;
+    font-size: small;
+}
+
+div.tutorial-search-title { 
+    border: 0.1rem solid white;
+    background-color: yellowgreen; 
+    position: relative;
+    width: 35%;
+    text-align: center;
+    font-size: small;
+} */

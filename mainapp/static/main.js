@@ -92,3 +92,83 @@ function closePopup() {
         }
     }
 }
+
+
+// 튜토리얼 영역 생성
+function openTutorial() {
+    // 본문(지도+지역명검색+수치) 전체 높이
+    var height = document.querySelector("body > section").offsetHeight;
+
+    $("div.tutorial-area").css({
+        height: height + "px",
+        visibility: "visible",
+        padding: "0px 7px"
+    });
+    $("body > section > div:nth-child(2)").css("top", -height + "px");
+    $("section").css("height", height);
+
+    // var h_maptitle = document.querySelector("#mapid").offsetTop;
+    // var h_maparea = document.querySelector("#mapid").offsetHeight;
+    
+    // var h_h2 = document.querySelector("article.search-bar > h2").offsetHeight;
+    // var h_search = document.querySelector("article.search-bar").offsetHeight - h_h2;
+    
+
+    // $("div.tutorial-area").html(`
+    //     <div class="tutorial-map-title"></div>
+    //     <div class="tutorial-map"><div>
+    //         지도를 클릭하면<br>지역별 날씨 정보와<br>사용자들의 OOTD를<br>확인할 수 있습니다. 
+    //     </div></div>
+    //     <div class="tutorial-search-title"></div>
+    //     <div class="tutorial-search"></div>
+        
+    // `);
+
+    // $("div.tutorial-area > div:nth-child(1)").css("height", h_maptitle);
+
+    // $("div.tutorial-map").css("height", h_maparea);
+
+    // $("div.tutorial-area > div:nth-child(3)").css("height", h_h2);
+
+    // $("div.tutorial-search").css({
+    //     height: h_search,
+    //     margin: "3px 30px"
+    // });
+}
+
+function openTutorialMap() {
+    openTutorial();
+
+    $("div.tutorial-area").html(`
+        <div class="tutorial tutorial-map">
+            지도를 클릭하면<br>지역별 날씨 정보와<br>사용자들의 OOTD를<br>확인할 수 있습니다.
+        </div>
+    `)
+
+    $("div.tutorial.tutorial-map").css({
+        top: 10,
+        left: $("svg.bi.bi-question-circle-fill.map").offset().left + 20
+    });
+}
+
+function openTutorialSearch() {
+    openTutorial();
+
+    $("div.tutorial-area").html(`
+        <div class="tutorial tutorial-search">
+            지도를 클릭하면<br>지역 이름을 직접 선택해<br>사용자들의 OOTD를<br>확인할 수 있습니다.
+        </div>
+    `)
+
+    $("div.tutorial.tutorial-search").css({
+        top: $("article.search-bar > h2").offset().top - 50,
+        left: $("svg.bi.bi-question-circle-fill.search").offset().left + 20
+    });
+}
+
+function closeTutorial() {
+    $("div.tutorial-area").removeAttr("style");
+    $("div.tutorial-area").empty();
+    $("body > section > div:nth-child(2)").removeAttr("style");
+    $("section").removeAttr("style");
+}
