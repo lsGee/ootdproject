@@ -45,17 +45,17 @@ Photo
         <div class="card-body" style="text-align: center">
           <h4 class="card-title"></h4>
             <div id="showInfo">
-              <img class="infoContent" id="cntImg" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
-              <p class="infoContent" id="cntNum" style="display: inline">{{ imgDetail.image_cnt }}</p>
+              <img id="cntImg" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
+              <p id="cntNum" style="display: inline">{{ imgDetail.image_cnt }}</p>
               <form method="POST">
                 {% csrf_token %}
-                <div style="display:inline" class="like, likeform, infoContent" name="like" onclick="likeCounter({{imgDetail.id}});"><img class="but" src="{% static 'images/like.png' %}"></div>
-                <p class="infoLike" id="likeNum" style="display: inline">{{ imgDetail.image_like }}</p>
+                <div style="display:inline" class="likeform" onclick="likeCounter({{imgDetail.id}});"><img class="but" src="{% static 'images/like.png' %}"></div>
+                <p class="infoLike" style="display: inline">{{ imgDetail.image_like }}</p>
               </form>
               <form method="POST">
                 {% csrf_token %}
-                <div style="display:inline" class="dislike, likeform, infoContent" name="dislike" onclick="dislikeCounter({{imgDetail.id}});"><img class="but" src="{% static 'images/dislike.png' %}"></div>
-                <p class="infoDislike" id="dislikeNum" style="display: inline">{{ imgDetail.image_dislike }}</p>
+                <div style="display:inline" class="likeform" onclick="dislikeCounter({{imgDetail.id}});"><img class="but" src="{% static 'images/dislike.png' %}"></div>
+                <p class="infoDislike" style="display: inline">{{ imgDetail.image_dislike }}</p>
               </form>
             </div>
           <br>
