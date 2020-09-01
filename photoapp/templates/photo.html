@@ -5,15 +5,31 @@ Photo
 
 {% block head %}
 <script>
+    var doubleSubmitFlag = false;
+    function doubleSubmitCheck(){
+        if(doubleSubmitFlag){
+            return doubleSubmitFlag;
+        }else{
+            doubleSubmitFlag = true;
+            return false;
+        }
+    }
+
     function likeCounter(id) {
+        if(doubleSubmitCheck()) return;
         $.getJSON("{% url 'likeCount' %}?id="+id, function(jsonObj) {
             $("p.infoLike").text(jsonObj.like);
         });
+
+<!--        alert("등록");-->
     }
     function dislikeCounter(id) {
+        if(doubleSubmitCheck()) return;
         $.getJSON("{% url 'dislikeCount' %}?id="+id, function(jsonObj) {
             $("p.infoDislike").text(jsonObj.dislike);
         });
+
+<!--        alert("등록");-->
     }
 </script>
   {% load static %}
@@ -33,12 +49,12 @@ Photo
               <p class="infoContent" id="cntNum" style="display: inline">{{ imgDetail.image_cnt }}</p>
               <form method="POST">
                 {% csrf_token %}
-                <div style="display:inline" class="like, likeform, infoContent" name="like" onclick="likeCounter({{imgDetail.id}})"><img class="but" src="{% static 'images/like.png' %}"></div>
+                <div style="display:inline" class="like, likeform, infoContent" name="like" onclick="likeCounter({{imgDetail.id}});"><img class="but" src="{% static 'images/like.png' %}"></div>
                 <p class="infoLike" id="likeNum" style="display: inline">{{ imgDetail.image_like }}</p>
               </form>
               <form method="POST">
                 {% csrf_token %}
-                <div style="display:inline" class="dislike, likeform, infoContent" name="dislike" onclick="dislikeCounter({{imgDetail.id}})"><img class="but" src="{% static 'images/dislike.png' %}"></div>
+                <div style="display:inline" class="dislike, likeform, infoContent" name="dislike" onclick="dislikeCounter({{imgDetail.id}});"><img class="but" src="{% static 'images/dislike.png' %}"></div>
                 <p class="infoDislike" id="dislikeNum" style="display: inline">{{ imgDetail.image_dislike }}</p>
               </form>
             </div>
