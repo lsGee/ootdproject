@@ -16,7 +16,7 @@
     .showInfo {
       height: 5%;
     }
-    .infoContent {
+    .infoLike, .infoDislike {
       margin-top: 2px;
       margin-bottom: 2px;
     }
@@ -29,7 +29,7 @@
       margin-left: 5px;
       margin-right: auto;
     }
-    .like {
+    .likeform {
       margin-left: auto;
       margin-right: auto;
     }
