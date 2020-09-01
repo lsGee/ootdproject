@@ -4,7 +4,18 @@ Photo
 {% endblock %}
 
 {% block head %}
-<!-- head에 들어갈 태그들(본인 페이지 전용 css, js 파일 등) 넣어주세여 -->
+<script>
+    function likeCounter(id) {
+        $.getJSON("{% url 'likeCount' %}?id="+id, function(jsonObj) {
+            $("p.infoLike").text(jsonObj.like);
+        });
+    }
+    function dislikeCounter(id) {
+        $.getJSON("{% url 'dislikeCount' %}?id="+id, function(jsonObj) {
+            $("p.infoDislike").text(jsonObj.dislike);
+        });
+    }
+</script>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'photo.css' %}">
 {% endblock%}
@@ -20,24 +31,16 @@ Photo
             <div id="showInfo">
               <img class="infoContent" id="cntImg" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
               <p class="infoContent" id="cntNum" style="display: inline">{{ imgDetail.image_cnt }}</p>
-              <form method="POST" action="/photo/{{ imageList.number|add:-1 }}/0/?city={{imgDetail.city_id_id}}&id={{imgDetail.id}}&sort={{sort}}&data={{data}}">
+              <form method="POST">
                 {% csrf_token %}
-                <button class="like, infoContent" name="like" onclick=""><img class="but" src="{% static 'images/like.png' %}"></button>
-                <p class="infoContent" id="likeNum" style="display: inline">{{ imgDetail.image_like }}</p>
+                <div style="display:inline" class="like, likeform, infoContent" name="like" onclick="likeCounter({{imgDetail.id}})"><img class="but" src="{% static 'images/like.png' %}"></div>
+                <p class="infoLike" id="likeNum" style="display: inline">{{ imgDetail.image_like }}</p>
               </form>
-<!--              <div class="hideInfo" style="display: inline">-->
-<!--                <img class="showLike" src="{% static 'images/like.png' %}">-->
-<!--                <p class="showLike">{{ imgLike.image_like }}</p>-->
-<!--              </div>-->
-              <form method="POST" action="/photo/{{ imageList.number|add:-1 }}/1/?city={{imgDetail.city_id_id}}&id={{imgDetail.id}}&sort={{sort}}&data={{data}}">
+              <form method="POST">
                 {% csrf_token %}
-                <button class="like, infoContent" name="dislike" onclick=""><img class="but" src="{% static 'images/dislike.png' %}"></button>
-                <p class="infoContent" id="dislikeNum" style="display: inline">{{ imgDetail.image_dislike }}</p>
+                <div style="display:inline" class="dislike, likeform, infoContent" name="dislike" onclick="dislikeCounter({{imgDetail.id}})"><img class="but" src="{% static 'images/dislike.png' %}"></div>
+                <p class="infoDislike" id="dislikeNum" style="display: inline">{{ imgDetail.image_dislike }}</p>
               </form>
-<!--              <div class="hideInfo" style="display: inline">-->
-<!--                <img class="showDislike" src="{% static 'images/dislike.png' %}">-->
-<!--                <p class="showDislike">{{ imgDislike.image_dislike }}</p>-->
-<!--              </div>-->
             </div>
           <br>
           <h5>
@@ -58,10 +61,4 @@ Photo
 <h1>{{ msg }}</h1>
 </div>
 {% endif %}
-<script>
-    $('document').ready(function() {
-        $('.showLike').hide();
-        $('.showDislike').hide();
-    });
-</script>
 {% endblock %}

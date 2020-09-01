@@ -95,3 +95,23 @@ def photo(request, list, like=3):
             context = { "msg" : "게시물이 존재하지 않습니다." }
 
         return render(request, "photo.html", context)
+
+def likeCount(request) :
+    # if request.method == "POST" :
+    id = request.GET.get("id")
+    imgDetail = Image.objects.get(id=id)
+    imgDetail.image_like += 1
+    imgDetail.save()
+
+    jsonContent={ "like": imgDetail.image_like }
+    return JsonResponse(jsonContent, json_dumps_params={'ensure_ascii': False})
+
+def dislikeCount(request) :
+    # if request.method == "POST" :
+    id = request.GET.get("id")
+    imgDetail = Image.objects.get(id=id)
+    imgDetail.image_dislike += 1
+    imgDetail.save()
+
+    jsonContent={ "dislike": imgDetail.image_dislike }
+    return JsonResponse(jsonContent, json_dumps_params={'ensure_ascii': False})
