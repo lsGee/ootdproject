@@ -12,13 +12,14 @@
         crossorigin=""></script>
     {% load static %}
     <script type="text/javascript" src="{% static 'weather.js' %}"></script>
-    <script type="text/javascript" src="{% static 'geomap.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'seoul_seg.css' %}">
+    <script type="text/javascript" src="{% static 'main.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 {% endblock%}
 
 {% block body %}
     <section>
         <article class="map-area">
+            <h2>지도에서 검색</h2>
             <div class="name-area"><h3>지역을 선택해 주세요</h3></div>
             <div>
                 <div id="mapid" class="map-area"></div>
@@ -37,6 +38,7 @@
             <select id="city" name="city">
                 <option value="">시군구 선택</option>
             </select>
+            <button onclick="gotoFeed()">이동</button>
         </article>
 
         <article class="info">
@@ -257,7 +259,7 @@
                             {% for j in image_list %}
                                 if({{ j.city_id_id }} == click_cd) {
                                     img.best_img = `
-                                        <a href="{% url 'photo'%}{{forloop.counter0}}/?city={{ j.city_id_id }}">
+                                        <a href="{% url 'photo'%}{{forloop.counter0}}/?city={{ j.city_id_id }}&id={{ j.image_id }}&sort=image_cnt">
                                             <img class='best-pic' src='{{ j.image_file.url }}'>
                                         </a>`;
                                     break;
@@ -324,6 +326,14 @@
                     $("#city").append("<option vlaue={{ i.city_id }}>{{ i.city_name }}</option>");
             {% endfor %}
         }
+    }
+
+    function gotoFeed() {
+        citySelect = document.getElementById("city");
+        
+        selected_city = Number(citySelect.options[citySelect.selectedIndex].value);
+        
+        location.href='/feed/?city=' + selected_city;
     }
     </script>
 {% endblock %}
