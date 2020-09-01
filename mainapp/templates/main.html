@@ -56,6 +56,12 @@
         </article>
 
         <article class="info">
+            <div class="top info">
+                <h3>TOP 5 #OOTD</h3>
+                {% for i in image_list_like %}
+                    <img class='top-pic' src='{{ i.image_file.url }}'>
+                {% endfor %}
+            </div>
             <div class="num info">
                 <p>오늘의 날씨요정은,</p>
                 <p><span class="num">{{ image_count }}</span>명</p>
@@ -63,9 +69,6 @@
             <div class="num info">
                 <p>오늘의 #OOTD 정확도는,</p>
                 <p><span class="num">{{ image_plike }}</span>%</p>
-            </div>
-            <div class="top info">
-                <p>명예의 전당</p>
             </div>
         </article>
     </div>

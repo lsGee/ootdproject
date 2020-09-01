@@ -137,6 +137,10 @@ article.info { display: block; }
 
 span.num { font-size: 35px; }
 
+div.top.info { text-align: center; }
+
+img.top-pic { width: 100px; height:100px }
+
 
 /* 튜토리얼 영역 */
 section > div:nth-child(2) { position: relative; }
