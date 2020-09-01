@@ -11,15 +11,35 @@ upload ootd
 <!--<link rel="stylesheet" type="text/css" href="{% static 'seoul_seg.css' %}"> &ndash;&gt;-->
 {% endblock%}
 {% block body %}
+
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <body>
-<img
-src="https://media.istockphoto.com/photos/submit-button-picture-id466098897?k=6&m=466098897&s=170667a&w=0&h=hQ7f8Z7xvhbR2yVZN9J0kQ4zO9pmo3RENBq70c4QCHU="
-style="display: block; margin:0 auto;border: 3px solid gold;
-border-radius: 7px;
--moz-border-radius: 7px;
--khtml-border-radius: 7px;
--webkit-border-radius: 7px;
-"/>
+    <article class="search-bar">
+        <h3>지역 검색</h3>
+        <select id="sido" name="sido" onchange="changeSelect()">
+            <option value="">시 선택</option>
+        </select>
+        <select id="city" name="city" onchange="changeCity()">
+            <option value="">시군구 선택</option>
+        </select>
+    </article>
+    <center>
+    <table border="1">
+        <hr>
+    <tr>
+      <th align="center" bgcolor="gray" width="500px">첨부파일 미리보기</th>
+    </tr>
+    <tr>
+      <td align="center">
+        <input type="file" name="uploadFile" id="uploadFile" multiple>
+        <div id="preview"></div>
+      </td>
+    </tr>
+  </table>
+        <br>
+</center>
+ </body>
+</html>
 <center>
 
     {% if upload.photo %}
@@ -29,29 +49,26 @@ border-radius: 7px;
         <img src="{{ image.image_file.url }}" width="200" alt="">
 
     {% else %}
-
         <form method="post"  action="{% url 'upload' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <p>사진제목 : <input type="text" name="image_name"></p>
-            <input type="file" name="image_file">
-            <input type="submit" value="전송.">
+            <p>작성자 이름 : <input type="text" name="image_name"> city : <input id=cityid name="city_id"> sido : <input id=sidoid name="sido_id"></p>
+            최종 선택 : <input type="file" name="image_file">
+            <input type="submit" value="전송" onclick="location.href='{% url "upload" %}">
         </form>
     {% endif %}
-</center><center>
-        <article class="search-bar">
-            <select id="sido" name="sido" onchange="changeSelect()">
-            <option value="">시 선택</option>
-        </select>
-        <select id="city" name="city">
-            <option value="">시군구 선택</option>
-        </select>
-    </article>
+</center>
+
+
+
 
     <script>
+        document.getElementById('cityid').value = getUrlParams().city;
+
         // select box (search-bar)
         {% for i in sido_list %}
             $("#sido").append("<option value=" + {{ i.sido_id }} + "> {{ i.sido_name }} </option>");
         {% endfor %}
+
 
         function changeSelect() {
             document.getElementById("city").innerHTML = '<option value="">시군구 선택</option>';
@@ -61,9 +78,96 @@ border-radius: 7px;
                 var sido_val = Number(sidoSelect.options[sidoSelect.selectedIndex].value);
                 {% for i in city_list %}
                     if({{ i.sido_id_id }} == sido_val)
-                        $("#city").append("<option vlaue={{ i.city_id }}>{{ i.city_name }}</option>");
+                        $("#city").append("<option value=" + {{ i.city_id }} + "> {{ i.city_name }} </option>");
                 {% endfor %}
+            }
+        }
+
+        function changeCity(){
+            sido = $('#sido').val();
+            city = $('#city').val();
+            document.getElementById('sidoid').value = sido;
+            document.getElementById('cityid').value = city;
+        }
+
+        function getUrlParams() {
+            var params = {};
+            window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+                                            function(str, key, value) { params[key] = value; });
+            return params;
         }
     </script>
-    </center>
+
+<script type="text/javascript">
+  $(document).ready(function (e){
+    $("input[type='file']").change(function(e){
+
+      //div 내용 비워주기
+      $('#preview').empty();
+
+      var files = e.target.files;
+      var arr =Array.prototype.slice.call(files);
+
+      //업로드 가능 파일인지 체크
+      for(var i=0;i<files.length;i++){
+        if(!checkExtension(files[i].name,files[i].size)){
+          return false;
+        }
+      }
+
+      preview(arr);
+
+
+    });//file change
+
+    function checkExtension(fileName,fileSize){
+
+      var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+      var maxSize = 20971520;  //20MB
+
+      if(fileSize >= maxSize){
+        alert('파일 사이즈 초과');
+        $("input[type='file']").val("");  //파일 초기화
+        return false;
+      }
+
+      if(regex.test(fileName)){
+        alert('업로드 불가능한 파일이 있습니다.');
+        $("input[type='file']").val("");  //파일 초기화
+        return false;
+      }
+      return true;
+    }
+
+    function preview(arr){
+      arr.forEach(function(f){
+
+        //파일명이 길면 파일명...으로 처리
+        var fileName = f.name;
+        if(fileName.length > 10){
+          fileName = fileName.substring(0,7)+"...";
+        }
+
+        //div에 이미지 추가
+        var str = '<div style="display: inline-flex; padding: 10px;"><li>';
+        str += '<span>'+fileName+'</span><br>';
+
+        //이미지 파일 미리보기
+        if(f.type.match('image.*')){
+          var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+          reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+            //str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
+            str += '<img src="'+e.target.result+'" title="'+f.name+'" width=350 height=550 />';
+            str += '</li></div>';
+            $(str).appendTo('#preview');
+          }
+          reader.readAsDataURL(f);
+        }else{
+          str += '<img src="/resources/img/fileImg.png" title="'+f.name+'" width=100 height=100 />';
+          $(str).appendTo('#preview');
+        }
+      });//arr.forEach
+    }
+  });
+</script>
 {% endblock %}
