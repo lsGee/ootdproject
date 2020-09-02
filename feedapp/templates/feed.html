@@ -82,7 +82,7 @@ OOTD Feed
 
     <div id="all" >
         {% for adata in alist %}
-            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ adata.city_id_id }}&id={{adata.id}}&sort={{sort}}'">
+            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ adata.city_id_id }}&id={{adata.id}}&sort={{sort}}&data={{data}}'">
                 <div>{{ adata.image_name }}</div>
                 <img src ="{{ adata.image_file.url }}" style='width:150px; height:150px'>
                 <div>조회수:{{ adata.image_cnt }} 좋아요:{{ adata.image_like }}</div>
