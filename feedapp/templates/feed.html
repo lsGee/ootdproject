@@ -4,6 +4,8 @@ OOTD Feed
 {% endblock %}
 
 {% block head %}
+{% load static %}
+    <script type="text/javascript" src="{% static 'weather.js' %}"></script>
 <!-- head에 들어갈 태그들(본인 페이지 전용 css, js 파일 등) 넣어주세여 -->
 <!-- 전체 폰트, 부트스트랩, 제이쿼리 링크는 base.html에 있으니까 안 써줘도 돼요 -->
 <!-- 예시(아래) -->
@@ -35,10 +37,17 @@ OOTD Feed
     <div>
         <button id="backbtn" onclick="location.href='{% url "main" %}'">Back</button>
         <button id="writebtn" onclick="goUpload()">Post my OOTD</button>
-        <p id="today"></p>
-        <p>now</p>
-        <p id="lat">{{ city.city_lat }}</p>
-        <p id="lng">{{ city.city_lng }}</p>
+    </div>
+
+    <div>
+        <table class="table table-sm"><tbody>
+            <tr>
+                <th id="today" colspan="2"></th>
+            </tr>
+            <tr id="popup-desc">
+                <th class="first-col">현재</th>
+                <td>${img.spinner}</td>
+        </tbody></table>
     </div>
     <hr>
 
@@ -60,7 +69,7 @@ OOTD Feed
             <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ odata.city_id_id }}&id={{odata.id}}&sort={{sort}}'">
                 <div>{{ odata.image_name }}</div>
                 <img src ="{{ odata.image_file.url }}" style='width:150px; height:150px'>
-                <div>조회수:{{ odata.image.cnt }} 좋아요:{{ odata.image_like }}</div>
+                <div>조회수:{{ odata.image_cnt }} 좋아요:{{ odata.image_like }}</div>
                 <div>{{ odata.image_date }}</div>
             </div>
         {% endfor %}
@@ -76,7 +85,7 @@ OOTD Feed
             <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ adata.city_id_id }}&id={{adata.id}}&sort={{sort}}'">
                 <div>{{ adata.image_name }}</div>
                 <img src ="{{ adata.image_file.url }}" style='width:150px; height:150px'>
-                <div>조회수:{{ odata.image.cnt }} 좋아요:{{ odata.image_like }}</div>
+                <div>조회수:{{ adata.image_cnt }} 좋아요:{{ adata.image_like }}</div>
                 <div>{{ adata.image_date }}</div>
             </div>
         {% endfor %}
@@ -91,7 +100,7 @@ OOTD Feed
         $(document).ready(function(){
             // today 설정
             today = new Date();
-            document.getElementById('today').innerText = "today: "+today.getFullYear()+"."
+            document.getElementById('today').innerText = "TODAY: "+today.getFullYear()+"."
                                                     +(today.getMonth()+1)+"."+today.getDate();
             // selected box 설정
             text = $('#sortYN').text();
@@ -103,22 +112,10 @@ OOTD Feed
                 $('#image_date').prop('selected', 'selected')
             }
 
-            // today 날씨
-            const API_KEY = '0c584632a7b7d1d11a962fcc005458c6';
-
-            function getURL(lat, lon){
-                var weatherURL = "https://api.openweathermap.org/data/2.5/onecall";
-                weatherURL += "?lat=" + lat + "&lon=" + lon;
-                weatherURL += "&exclude=" + "minutely,daily";
-                weatherURL += "&lang=kr";
-                weatherURL += "&units=metric";
-                weatherURL += "&appid="+API_KEY;
-
-                return weatherURL;
-            }
-            lat = $('#lat').text();
-            lng = $('#lng').text();
-            console.log(getURL(lat, lng));
+            // 날씨
+            lat = {{ city.city_lat }};
+            lng = {{ city.city_lng }};
+            getWeather(lat, lng);
         })
 
         function showAllFeed(){
