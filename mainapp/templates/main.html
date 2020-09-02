@@ -4,79 +4,89 @@
 {% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-        crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-        crossorigin=""></script>
-    {% load static %}
-    <script type="text/javascript" src="{% static 'weather.js' %}"></script>
-    <script type="text/javascript" src="{% static 'main.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+{% load static %}
+<script type="text/javascript" src="{% static 'weather.js' %}"></script>
+<script type="text/javascript" src="{% static 'main.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 {% endblock%}
 
 {% block body %}
-    <section>
-        <div class="tutorial-area" onclick=closeTutorial()></div>
+<section>
+    <div class="tutorial-area" onclick=closeTutorial()></div>
+    <div>
+    <article class="map-area">
+        <h2>지도에서 찾기
+            <span onclick=openTutorialMap()>
+                <svg width="0.5em" height="0.5em" viewBox="0 0 16 16" class="bi bi-question-circle-fill map" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
+                </svg>
+            </span>
+        </h2>
+        <div class="name-area"><h3>지역을 선택해 주세요</h3></div>
         <div>
-        <article class="map-area">
-            <h2>지도에서 찾기
-                <span onclick=openTutorialMap()>
-                    <svg width="0.5em" height="0.5em" viewBox="0 0 16 16" class="bi bi-question-circle-fill map" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
-                    </svg>
-                </span>
-            </h2>
-            <div class="name-area"><h3>지역을 선택해 주세요</h3></div>
-            <div>
-                <div id="mapid" class="map-area"></div>
-                <div id="map-cover" class="map-area"></div>
-                <div class="popup-area" onclick=closePopup()>
-                    <div><div><div id="map-popup"></div></div></div>
-                </div>
+            <div id="mapid" class="map-area"></div>
+            <div id="map-cover" class="map-area"></div>
+            <div class="popup-area" onclick=closePopup()>
+                <div><div><div id="map-popup"></div></div></div>
             </div>
-        </article>
+        </div>
+    </article>
 
-        <article class="search-bar">
-            <h2>지역명으로 찾기
-                <span onclick=openTutorialSearch()>
-                    <svg width="0.5em" height="0.5em" viewBox="0 0 16 16" class="bi bi-question-circle-fill search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
-                    </svg>
-                </span>
-            </h2>
-            <select id="sido" name="sido" onchange="changeSelect()">
-                <option value="">시/도 선택</option>
-            </select>
-            <select id="city" name="city">
-                <option value="">시군구 선택</option>
-            </select>
-            <button onclick="gotoFeed()">이동</button>
-        </article>
+    <article class="search-bar">
+        <h2>지역명으로 찾기
+            <span onclick=openTutorialSearch()>
+                <svg width="0.5em" height="0.5em" viewBox="0 0 16 16" class="bi bi-question-circle-fill search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
+                </svg>
+            </span>
+        </h2>
+        <select id="sido" name="sido" onchange="changeSelect()">
+            <option value="">시/도 선택</option>
+        </select>
+        <select id="city" name="city">
+            <option value="">시군구 선택</option>
+        </select>
+        <button onclick="gotoFeed()">이동</button>
+    </article>
 
-        <article class="info">
-            <div class="top info">
-                <h3>TOP 5 #OOTD</h3>
-                {% for i in image_list_like %}
+    <article class="info">
+        <div class="top info">
+            <h3>TOP 5 #OOTD</h3>
+            {% for i in image_list_like %}
+                <a href="{% url 'photo'%}{{forloop.counter0}}/?city={{ i.city_id_id }}&id={{ i.image_id }}&sort=image_like&data=">
                     <img class='top-pic' src='{{ i.image_file.url }}'>
-                {% endfor %}
-            </div>
-            <div class="num info">
-                <p>오늘의 날씨요정은,</p>
-                <p><span class="num">{{ image_count }}</span>명</p>
-            </div>
-            <div class="num info">
-                <p>오늘의 #OOTD 정확도는,</p>
-                <p><span class="num">{{ image_plike }}</span>%</p>
-            </div>
-        </article>
-    </div>
-    </section>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="num info">
+            <p>오늘의 날씨요정은,</p>
+            <p><span class="num">{{ image_count }}</span>명</p>
+        </div>
+        <div class="num info">
+            <p>오늘의 #OOTD 정확도는,</p>
+            <p><span class="num">{{ image_plike }}</span>%</p>
+        </div>
+    </article>
+</div>
+</section>
 
-    <div style="clear:both;"></div>  <!--위치 오류 해결!-->
+<div style="clear:both;"></div>  <!--위치 오류 해결!-->
 
-    <script>
+<script>
+    window.onload = function() {
+        for(i=0; i < (5 - {{ image_count }}); i++) {
+            $("div.top.info").append(
+                '<img class="top-pic" src="{% static 'images/letter-x.png' %}">'
+            )
+        }
+    }
+
     var geojson;
     var click_sido; // 클릭한 시도코드 넣어줄 변수
 
@@ -280,7 +290,7 @@
                             {% for j in image_list %}
                                 if({{ j.city_id_id }} == click_cd) {
                                     img.best_img = `
-                                        <a href="{% url 'photo'%}{{forloop.counter0}}/?city={{ j.city_id_id }}&id={{ j.image_id }}&sort={{sort}}">
+                                        <a href="{% url 'photo'%}{{forloop.counter0}}/?city={{ j.city_id_id }}&id={{ j.image_id }}&sort=image_cnt&data=">
                                             <img class='best-pic' src='{{ j.image_file.url }}'>
                                         </a>`;
                                     break;
@@ -356,5 +366,5 @@
 
         location.href='{% url "feed"%}?city=' + selected_city;
     }
-    </script>
+</script>
 {% endblock %}
