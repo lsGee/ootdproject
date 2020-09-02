@@ -60,9 +60,14 @@ div.popup-area > div > div {
 
 .leaflet-popup.leaflet-zoom-animated { display: none; }
 
-.name-area {
-    text-align: center;
+// zoomHome
+div.gin-control-zoom leaflet-bar.leaflet-control, a.gin-control-zoom-home, a.gin-control-zoom-home:hover {
+    width: 34px;
+    height: 34px;
+    user-select: none;
 }
+
+.name-area { text-align: center; }
 
 
 /* 지도 시군구 팝업창 
@@ -143,6 +148,8 @@ img.top-pic { width: 100px; height:100px }
 
 
 /* 튜토리얼 영역 */
+svg.bi-question-circle-fill.map, svg.bi-question-circle-fill.search { cursor: pointer; }
+
 section > div:nth-child(2) { position: relative; }
 
 div.tutorial-area { 
@@ -157,9 +164,14 @@ div.tutorial-area {
 
 div.tutorial.tutorial-map, div.tutorial.tutorial-search { 
     position: relative; 
-    width: 250px;
+    /* width: 250px; */
+    width: 0px;
+    height: 80px;
+    overflow: hidden;
     text-align: center;
     background-color: lightgrey;
+    transition: width 1s, height 1s;
+    font-size: small;
 }
 
 
