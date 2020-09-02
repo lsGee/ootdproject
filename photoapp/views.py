@@ -9,7 +9,6 @@ from datetime import date
 
 def photo(request, list):
     city = int(request.GET['city'][:5])
-    id = request.GET['id']
     sort = request.GET['sort']
     data = request.GET['data']
     today = date.today()
