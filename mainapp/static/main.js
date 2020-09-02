@@ -177,3 +177,4 @@ function closeTutorial() {
     $("body > section > div:nth-child(2)").removeAttr("style");
     $("section").removeAttr("style");
 }
+
