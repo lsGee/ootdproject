@@ -27,8 +27,8 @@ def feed(request):
                                      image_date__day=today.day).order_by('image_date').reverse()
 
     city = City.objects.get(city_id=city)
-
-    context = {"olist": olist, "sort": sort, "city": city}
+    data = "today"
+    context = {"olist": olist, "sort": sort, "city": city, "data": data}
     return render(request, 'feed.html', context)
 
 
@@ -48,6 +48,7 @@ def feedall(request):
                                          image_date__day=today.day).order_by(sort).reverse()
             # month거르기 아직 안함!!
             alist = Image.objects.filter(city_id=city,
+                                         image_date__month=today.month,
                                          image_date__lt=today).order_by(sort).reverse()
     else:
         # 실시간 (기본)
@@ -56,9 +57,10 @@ def feedall(request):
                                      image_date__day=today.day).order_by('image_date').reverse()
         # month거르기 아직 안함!!
         alist = Image.objects.filter(city_id=city,
+                                     image_date__month=today.month,
                                      image_date__lt=today).order_by('image_date').reverse()
 
     city = City.objects.get(city_id=city)
-
-    context = {"olist": olist, "alist": alist, "city": city, "sort": sort}
+    data = "all"
+    context = {"olist": olist, "alist": alist, "city": city, "sort": sort, "data": data}
     return render(request, 'feed.html', context)
