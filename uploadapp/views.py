@@ -21,8 +21,10 @@ def upload(request):
                       sido_id_id=City.objects.filter(city_id=request.POST.get('city_id', '')).values('sido_id'),
                       image_file=request.FILES['image_file'])
         image.save()
-        context = {"image": image}
 
+        context = {"image": image}
+        context = {'sido_list': Sido.objects.all(),
+                   'city_list': City.objects.all()}
     else:
         context = {'sido_list': Sido.objects.all(),
                    'city_list': City.objects.all()}
@@ -42,6 +44,8 @@ def uploadsel(request):
                       image_file=request.FILES['image_file'])
         image.save()
         context = {"image": image}
+        context = {'sido_list': Sido.objects.all(),
+                   'city_list': City.objects.all()}
 
     else:
         context = {'sido_list': Sido.objects.all(),
