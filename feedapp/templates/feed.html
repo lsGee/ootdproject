@@ -66,7 +66,7 @@ OOTD Feed
 
     <div>
         {% for odata in olist %}
-            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ odata.city_id_id }}&id={{odata.id}}&sort={{sort}}'">
+            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ odata.city_id_id }}&sort={{sort}}&data={{data}}'">
                 <div>{{ odata.image_name }}</div>
                 <img src ="{{ odata.image_file.url }}" style='width:150px; height:150px'>
                 <div>조회수:{{ odata.image_cnt }} 좋아요:{{ odata.image_like }}</div>
@@ -82,7 +82,7 @@ OOTD Feed
 
     <div id="all" >
         {% for adata in alist %}
-            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ adata.city_id_id }}&id={{adata.id}}&sort={{sort}}'">
+            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ adata.city_id_id }}&sort={{sort}}&data={{data}}'">
                 <div>{{ adata.image_name }}</div>
                 <img src ="{{ adata.image_file.url }}" style='width:150px; height:150px'>
                 <div>조회수:{{ adata.image_cnt }} 좋아요:{{ adata.image_like }}</div>

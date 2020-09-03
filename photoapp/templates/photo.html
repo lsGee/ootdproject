@@ -61,11 +61,46 @@ Photo
           <br>
           <h5>
             {% if imageList.has_previous %}
-              <a onclick="location.replace('http://localhost:8000/photo/{{ imageList.number|add:-2 }}/?city={{imgDetail.city_id_id}}&id={{imgDetail.id}}&sort={{sort}}&data={{data}}')">이전</a>
+              <a onclick="location.replace('http://localhost:8000/photo/{{ imageList.number|add:-2 }}/?city={{imgDetail.city_id_id}}&sort={{sort}}&data={{data}}')">이전</a>
               {% endif %}
               <a  onclick="history.back()" class="">목록</a>
               {% if imageList.has_next %}
-              <a onclick="location.replace('http://localhost:8000/photo/{{ imageList.number }}/?city={{imgDetail.city_id_id}}&id={{imgDetail.id}}&sort={{sort}}&data={{data}}')">다음</a>
+              <a onclick="location.replace('http://localhost:8000/photo/{{ imageList.number }}/?city={{imgDetail.city_id_id}}&sort={{sort}}&data={{data}}')">다음</a>
+              {% endif %}
+          </h5>
+        </div>
+    </div>
+  </section>
+</div>
+{% elif alist %}
+<div class="container">
+  <section>
+    <div class="card" style="width:400px;">
+      <img class="card-img-top" src="{{ aDetail.image_file.url }}" alt="Card image" style="width:100%">
+        <div class="card-body" style="text-align: center">
+          <h4 class="card-title"></h4>
+            <div id="showInfo2">
+              <img id="cntImg2" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
+              <p id="cntNum2" style="display: inline">{{ aDetail.image_cnt }}</p>
+              <form method="POST">
+                {% csrf_token %}
+                <div style="display:inline" class="likeform" onclick="likeCounter({{aDetail.id}});"><img class="but" src="{% static 'images/like.png' %}"></div>
+                <p class="infoLike" style="display: inline">{{ aDetail.image_like }}</p>
+              </form>
+              <form method="POST">
+                {% csrf_token %}
+                <div style="display:inline" class="likeform" onclick="dislikeCounter({{aDetail.id}});"><img class="but" src="{% static 'images/dislike.png' %}"></div>
+                <p class="infoDislike" style="display: inline">{{ aDetail.image_dislike }}</p>
+              </form>
+            </div>
+          <br>
+          <h5>
+            {% if alist.has_previous %}
+              <a onclick="location.replace('http://localhost:8000/photo/{{ alist.number|add:-2 }}/?city={{aDetail.city_id_id}}&sort={{sort}}&data={{data}}')">이전</a>
+              {% endif %}
+              <a  onclick="history.back()" class="">목록</a>
+              {% if alist.has_next %}
+              <a onclick="location.replace('http://localhost:8000/photo/{{ alist.number }}/?city={{aDetail.city_id_id}}&sort={{sort}}&data={{data}}')">다음</a>
               {% endif %}
           </h5>
         </div>

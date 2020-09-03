@@ -144,7 +144,13 @@ span.num { font-size: 35px; }
 
 div.top.info { text-align: center; }
 
-img.top-pic { width: 100px; height:100px }
+div.top.info > a:hover { text-decoration: none; }
+
+img.top-pic { 
+    width: 100px; 
+    height:100px;
+    margin: 5px;
+}
 
 
 /* 튜토리얼 영역 */
