@@ -1,139 +1,220 @@
-{% extends "base.html"%}
-{% block title %}
-OOTD Feed
-{% endblock %}
+<!DOCTYPE HTML>
+<html lang="ko">
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>OOTD FEED</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+		{% load static %}
 
-{% block head %}
-{% load static %}
-    <script type="text/javascript" src="{% static 'weather.js' %}"></script>
-<!-- head에 들어갈 태그들(본인 페이지 전용 css, js 파일 등) 넣어주세여 -->
-<!-- 전체 폰트, 부트스트랩, 제이쿼리 링크는 base.html에 있으니까 안 써줘도 돼요 -->
-<!-- 예시(아래) -->
-<!--{% load static %}-->
-<!--<link rel="stylesheet" type="text/css" href="{% static 'seoul_seg.css' %}"> &ndash;&gt;-->
-    <style>
-        div.ootd{
-            margin: 5px;
-            border: 1px solid #ccc;
-            float: left;
-            width: 180px;
-        }
-        div.ootd:hover {
-            border: 1px solid #777;
-        }
-
-        div.ootd img {
-          width: 100%;
-          height: auto;
-        }
-
-    </style>
-{% endblock%}
-
-{% block body %}
-<!-- 본문(페이지 body 안에 들어갈 내용)은 여기에! -->
-<!--페이지 공통으로 들어갈 상단탭(?) 부분은 여기선 생략하고 나중에 base.html에 만들기로 해여-->
-    <h1>OOTD Feed</h1>
-    <div>
-        <button id="backbtn" onclick="location.href='{% url "main" %}'">Back</button>
-        <button id="writebtn" onclick="goUpload()">Post my OOTD</button>
-    </div>
-
-    <div>
-        <table class="table table-sm"><tbody>
-            <tr>
-                <th id="today" colspan="2"></th>
-            </tr>
-            <tr id="popup-desc">
-                <th class="first-col">현재</th>
-                <td>${img.spinner}</td>
-        </tbody></table>
-    </div>
-    <hr>
-
-    <p id="sortYN" style="display:none">{{ sort }}</p>
-<!--    <p id="allYN" style="display:none"></p>-->
-
-    <form method="POST">
-        {% csrf_token %}
-        <select id="select" name="sort" onchange="this.form.submit()">
-            <option value="">정렬방법을 선택해주세요:</option>
-            <option id="image_cnt" value="image_cnt">조회순</option>
-            <option id="image_like" value="image_like">좋아요순</option>
-            <option id="image_date" value="image_date">최신순</option>
-        </select>
-    </form>
-
-    <div>
-        {% for odata in olist %}
-            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ odata.city_id_id }}&sort={{sort}}&data={{data}}'">
-                <div>{{ odata.image_name }}</div>
-                <img src ="{{ odata.image_file.url }}" style='width:150px; height:150px'>
-                <div>조회수:{{ odata.image_cnt }} 좋아요:{{ odata.image_like }}</div>
-                <div>{{ odata.image_date }}</div>
-            </div>
-        {% endfor %}
-        <br clear="all">
-    </div>
-    <hr>
-
-    <p id="endOfToday">오늘의 OOTD는 여기까지 입니다. 과거의 OOTD를 보고 싶으면 버튼을 눌러주세요.</p>
-    <div id="showallbtn"><button onclick="showAllFeed()">Show past Feed</button></div>
-
-    <div id="all" >
-        {% for adata in alist %}
-            <div class="ootd" onclick="location.href= '{% url "photo" %}{{forloop.counter0}}/?city={{ adata.city_id_id }}&sort={{sort}}&data={{data}}'">
-                <div>{{ adata.image_name }}</div>
-                <img src ="{{ adata.image_file.url }}" style='width:150px; height:150px'>
-                <div>조회수:{{ adata.image_cnt }} 좋아요:{{ adata.image_like }}</div>
-                <div>{{ adata.image_date }}</div>
-            </div>
-        {% endfor %}
-        <br clear="all">
-    </div>
-    <hr>
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/main.css' %}" >
+		<noscript><link rel="stylesheet" type="text/css" href="{% static 'assets/css/noscript.css' %}" ></noscript>
 
 
-    <div style="clear:both"></div>
+		<script type="text/javascript" src="{% static 'weather.js' %}"></script>
 
-    <script>
-        $(document).ready(function(){
-            // today 설정
-            today = new Date();
-            document.getElementById('today').innerText = "TODAY: "+today.getFullYear()+"."
-                                                    +(today.getMonth()+1)+"."+today.getDate();
-            // selected box 설정
-            text = $('#sortYN').text();
-            if(text == "image_cnt"){
-                $('#image_cnt').prop('selected', 'selected')
-            }else if(text == "image_like"){
-                $('#image_like').prop('selected', 'selected')
-            }else if(text == "image_date"){
-                $('#image_date').prop('selected', 'selected')
-            }
+	</head>
 
-            // 날씨
-            lat = {{ city.city_lat }};
-            lng = {{ city.city_lng }};
-            getWeather(lat, lng);
-        })
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-        function showAllFeed(){
-            //$('#all').css('display', 'block');
-            var params = getUrlParams();
-            var city = params.city;
-            location.href='{% url "feedall" %}?city='+city;
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
 
-        }
-        function goUpload(){
-            var params = getUrlParams();
-            var city = params.city;
-            location.href='{% url "upload" %}?city='+city;
-        }
-        function getUrlParams() {
-            var params = {};
-            window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
-            return params;
-        }
-    </script>
-{% endblock %}
+							<!-- Logo -->
+								<a onclick="location.href='{% url "main" %}'" class="logo">
+									{% load static %}
+									<span class="symbol"><img src="{% static 'images/logo.svg' %}" alt="" /></span><span class="title">OOTD</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="generic.html">Ipsum veroeros</a></li>
+							<li><a href="generic.html">Tempus etiam</a></li>
+							<li><a href="generic.html">Consequat dolor</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<article class="inner">
+							<header>
+								<h1>{{ city.city_name }} OOTD Feed</h1>
+								<p></p>
+								<ul class="actions">
+									<li><a onclick="location.href='{% url "main" %}'" class="button">BACK</a></li>
+
+								</ul>
+								<ul class="actions" style="float:right">
+									<li><a onclick="goUpload()" class="button icon solid fa-save">UPLOAD</a></li>
+								</ul>
+							</header>
+
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>TODAY</th>
+											<td id="today"></td>
+										</tr>
+										<tr id="popup-desc">
+											<th class="first-col">WEATHER</th>
+											<td>${img.spinner}</td>
+										</tr>
+									</thead>
+								</table>
+							</div>
+
+							<p id="sortYN" style="display:none">{{ sort }}</p>
+
+							<form method="POST">
+							{% csrf_token %}
+								<div class="col-12">
+									<select id="demo-category" name="sort" onchange="this.form.submit()">
+										<option value="">정렬방법을 선택해주세요:</option>
+										<option id="image_cnt" value="image_cnt">조회순</option>
+										<option id="image_like" value="image_like">좋아요순</option>
+										<option id="image_date" value="image_date">최신순</option>
+									</select>
+								</div>
+							</form>
+
+<!--							TODAY FEED-->
+							<section class="tiles">
+								{% for odata in olist %}
+									<article class="style1">
+										<span class="image">
+											<h2 style="margin: 0 0 1em 0; text-align: center;">{{ odata.image_date.year }}.{{ odata.image_date.month }}</h2>
+											<img class="photo" src ="{{ odata.image_file.url }}" />
+										</span>
+										<a href='{% url "photo" %}{{forloop.counter0}}/?city={{ odata.city_id_id }}&sort={{sort}}&data=today'>
+											<div class="content">
+												<br>NAME: {{ odata.image_name }}</br>
+													TIME: {{ odata.image_date }}</br>
+													VIEWS:{{ odata.image_cnt }}</br>
+													GOOD:{{ odata.image_like }}</p>
+											</div>
+										</a>
+									</article>
+								{% endfor %}
+							</section>
+							<hr>
+
+							<h2>오늘의 OOTD는 여기까지 입니다. 과거의 OOTD를 보고 싶으면 버튼을 눌러주세요.</h2>
+							<ul class="actions fit">
+								<li id="showallbtn"><a onclick="showAllFeed()" class="button fit">Show past Feed</a></li>
+							</ul>
+
+<!--							PAST FEED-->
+							<section class="tiles">
+								{% for adata in alist %}
+									<article class="style1">
+										<span class="image">
+											<h2 style="margin: 0 0 1em 0; text-align: center;">{{ adata.image_date.year }}.{{ adata.image_date.month }}</h2>
+											<img class="photo" src ="{{ adata.image_file.url }}" />
+										</span>
+										<a href='{% url "photo" %}{{forloop.counter0}}/?city={{ adata.city_id_id }}&sort={{sort}}&data={{data}}'>
+											<div class="content">
+												<br>NAME: {{ adata.image_name }}</br>
+													TIME: {{ adata.image_date }}</br>
+													VIEWS:{{ adata.image_cnt }}</br>
+													GOOD:{{ adata.image_like }}</p>
+											</div>
+										</a>
+									</article>
+								{% endfor %}
+							</section>
+						</article>
+
+						<!-- Footer -->
+						<footer id="footer">
+							<div class="inner">
+								<ul class="copyright">
+									<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								</ul>
+							</div>
+						</footer>
+
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			{% load static %}
+
+			<script href="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script href="{% static 'assets/js/browser.min.js' %}"></script>
+			<script href="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script href="{% static 'assets/js/util.js' %}"></script>
+			<script href="{% static 'assets/js/main.js' %}"></script>
+
+			<script>
+				$(document).ready(function(){
+					// today 설정
+					today = new Date();
+					document.getElementById('today').innerText = today.getFullYear()+"."
+															+(today.getMonth()+1)+"."+today.getDate();
+					// selected box 설정
+					text = $('#sortYN').text();
+					if(text == "image_cnt"){
+						$('#image_cnt').prop('selected', 'selected')
+					}else if(text == "image_like"){
+						$('#image_like').prop('selected', 'selected')
+					}else if(text == "image_date"){
+						$('#image_date').prop('selected', 'selected')
+					}
+
+					// 날씨
+					lat = {{ city.city_lat }};
+					lng = {{ city.city_lng }};
+					getWeather(lat, lng);
+
+					// 이미지 크기 조정
+					var cw = $('.photo').width();
+					$('.photo').css({'height':cw*1.2+'px'});
+				})
+
+				function showAllFeed(){
+					//$('#all').css('display', 'block');
+					var params = getUrlParams();
+					var city = params.city;
+					location.href='{% url "feedall" %}?city='+city;
+
+				}
+				function goUpload(){
+					var params = getUrlParams();
+					var city = params.city;
+					location.href='{% url "upload" %}?city='+city;
+				}
+				function getUrlParams() {
+					var params = {};
+					window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+					return params;
+				}
+			</script>
+
+	</body>
+</html>
