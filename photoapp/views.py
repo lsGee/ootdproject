@@ -34,7 +34,7 @@ def photo(request, list):
 
         return render(request, "photo.html", context)
 
-    elif data == "today" or data == "allday" or data == "" :
+    elif data == "today" or data == "" :
         try :
             if sort !="" :
                 imageList = Image.objects.filter(city_id_id= city,
@@ -63,10 +63,35 @@ def photo(request, list):
 
         return render(request, "photo.html", context)
 
+    # elif data == "alltoday" :
+    #     try :
+    #         if sort !="" :
+    #             allList = Image.objects.filter(city_id_id= city,
+    #                                            image_date__month=today.month,
+    #                                            image_date__day=today.day).order_by(sort).reverse()
+    #         else:
+    #             allList = Image.objects.filter(city_id_id=city,
+    #                                            image_date__month=today.month,
+    #                                            image_date__day=today.day).order_by('image_date').reverse()
+    #         allData = str(allList[:3]);
+    #         allDetail = allList[list]
+    #         allDetail.image_cnt += 1;
+    #         allDetail.save()
+    #         page = request.GET.get('page',list+1)
+    #         paginator = Paginator(allList,1)
+    #         allListpage = paginator.get_page(page)
+    #         context = { "allList": allListpage, "allDetail": allDetail, "sort": sort, "data": data, "allData": allData }
+    #
+    #
+    #     except Image.DoesNotExist :
+    #         context = { "msg" : "게시물이 존재하지 않습니다." }
+    #
+    #     return render(request, "photo.html", context)
+
     elif data == "top5" :
         try:
             blistA = Image.objects.filter(image_date__month=today.month,
-                                             image_date__day=today.day).order_by('image_like').reverse()
+                                          image_date__day=today.day).order_by('image_like').reverse()
             blist = blistA[:5]
             bDetail = blist[list]
             bDetail.image_cnt += 1;
@@ -84,12 +109,12 @@ def photo(request, list):
         try :
             if sort !="" :
                 cList = Image.objects.filter(city_id_id= city,
-                                                 image_date__month=today.month,
-                                                 image_date__day=today.day).order_by(sort).reverse()
+                                             image_date__month=today.month,
+                                             image_date__day=today.day).order_by(sort).reverse()
             else:
                 cList = Image.objects.filter(city_id_id=city,
-                                                 image_date__month=today.month,
-                                                 image_date__day=today.day).order_by('image_date').reverse()
+                                             image_date__month=today.month,
+                                             image_date__day=today.day).order_by('image_date').reverse()
 
             cDetail = cList[list]
             cDetail.image_cnt += 1;
