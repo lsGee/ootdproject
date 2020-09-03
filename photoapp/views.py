@@ -16,9 +16,11 @@ def photo(request, list):
         try:
             if sort != "":
                 alist = Image.objects.filter(city_id=city,
+                                             image_date__month=today.month,
                                              image_date__lt=today).order_by(sort).reverse()
             else:
                 alist = Image.objects.filter(city_id=city,
+                                             image_date__month=today.month,
                                              image_date__lt=today).order_by('image_date').reverse()
             aDetail = alist[list]
             aDetail.image_cnt += 1;
