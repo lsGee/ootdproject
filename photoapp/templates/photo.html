@@ -225,6 +225,41 @@
 </div>
   </section>
 </div>
+{% elif cList %}
+<div class="single-amenities">
+     <div class="amenities-thumb" style="height:600px;">
+         <img class="img-fluid w-100" src="{{ cDetail.image_file.url }}" alt="" />
+     </div>
+     <div class="amenities-details">
+         <h5><a href="#"></a></h5>
+         <div class="amenities-meta mb-10">
+			 <a class="ml-20"><span class="ti-eye"></span>{{ cDetail.image_cnt }}</a>
+             <a class="ml-20 infoLike" onclick="likeCounter({{cDetail.id}})"><span class="ti-heart"></span><span class="infoLike">{{ cDetail.image_like }}</span></a>
+             <a class="ml-20 infoDislike" onclick="dislikeCounter({{cDetail.id}})"><span class="ti-heart-broken"></span><span class="infoDislike">{{ cDetail.image_dislike }}</span></a>
+             <br>
+             <a class="ml-20" style="float:right"><span class="ti-calendar"></span>{{ cDetail.image_date }}</a>
+             <a class="ml-20" style="float:right"><span class="ti-user"></span>{{ cDetail.image_name }}</a>
+         </div>
+         <p></p>
+         <div class="d-flex justify-content-between mt-70" style="position:relative">
+             {% if cList.has_previous %}
+             <div>
+                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ cList.number|add:-2 }}/?city={{cDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
+             </div>
+             {% endif %}
+             <div class="category">
+                 <a class="" style="position:absolute; left:50%; transform:translateX(-50%); text-align:center;"><span class="ti-view-grid mr-1" onclick="history.back()"> 목록</span></a>
+             </div>
+             {% if cList.has_next %}
+             <div>
+                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ cList.number }}/?city={{cDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
+             </div>
+             {% endif %}
+         </div>
+     </div>
+</div>
+  </section>
+</div>
 {% else %}
 <div style="text-align:center">
 <h1>{{ msg }}</h1>
