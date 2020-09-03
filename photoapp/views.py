@@ -102,12 +102,3 @@ def dislikeCount(request) :
 
     jsonContent={ "dislike": imgDetail.image_dislike }
     return JsonResponse(jsonContent, json_dumps_params={'ensure_ascii': False})
-
-def index(request) :
-    return render(request, "index.html")
-
-def generic(request) :
-    return render(request, "generic.html")
-
-def elements(request) :
-    return render(request, "elements.html")
