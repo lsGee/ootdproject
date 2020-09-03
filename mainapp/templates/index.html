@@ -1,0 +1,694 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Dimension by HTML5 UP</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+		crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+		crossorigin=""></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'assets/css/index.css' %}" />
+	<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	<script type="text/javascript" src="{% static 'weather.js' %}"></script>
+	<script type="text/javascript" src="{% static 'main.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+</head>
+<body class="is-preload">
+	<div class="top-bar">
+		<nav class="navbar navbar-dark">
+			<div>
+			<h1>#OOTD</h1><br>
+			<p>국내 지역별 날씨 예보를 확인하고, 유저들과 옷차림을 간편하게 공유할 수 있습니다.</p>
+			<p>아래 지도 혹은 선택창에서 확인하고 싶은 지역을 클릭해 보세요.</p>
+			</div>
+		</nav>
+	</div>
+		<div id="wrapper">
+			<header id="header">
+				<div class="logo">
+					<span class="icon fa-gem"></span>
+				</div>
+				<div class="content">
+					<div class="inner">
+						<article class="map-area">
+							<div class="name-area">
+								<h2>지도로 찾기</h2>
+							</div>
+							<div>
+								<div id="mapid" class="map-area"></div>
+								<div id="map-cover" class="map-area"></div>
+								<div class="popup-area" onclick=closePopup()>
+									<div><div><div id="map-popup"></div></div></div>
+								</div>
+							</div>
+						</article>
+
+						<article class="search-bar">
+							<h2>지역명으로 찾기
+								<span onclick=openTutorialSearch()>
+								</span>
+							</h2>
+							<div>
+								<select id="sido" name="sido" onchange="changeSelect()">
+									<option value="">시/도</option>
+								</select>
+								<select id="city" name="city">
+									<option value="">시군구</option>
+								</select>
+								<button type=button onclick="goTo('{% url "feed"%}')">GO</button>
+								<button type=button class="button primary" onclick="goTo('{% url "upload"%}')">Upload</button>
+							</div>
+						</article>
+
+						<article class="info">
+							<div class="num info">
+								<p>오늘의 날씨요정은,</p>
+								<p><span class="num">{{ image_count }}</span>명</p>
+							</div>
+							<div class="num info">
+								<p>오늘의 #OOTD 정확도는,</p>
+								<p><span class="num">{{ image_plike }}</span>%</p>
+							</div>
+						</article>
+					</div>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="#intro">TOP5</a></li>
+						<li><a href="{% url 'upload' %}">UPLOAD</a></li>
+						<li><a href="#about">About</a></li>
+						<!-- <li><a href="#elements">Elements</a></li> -->
+					</ul>
+				</nav>
+			</header>
+
+			<!-- Main -->
+				<div id="main">
+					<!-- Intro -->
+						<article id="intro">
+							<h2 class="major">TOP5 #OOTD</h2>
+							<p>국내 전체 OOTD 중 오늘 하루 가장 많은 '맞아요'를 받은 OOTD입니다.</p>
+							<div class="top info">
+								{% for i in image_list_like %}
+									<div class=top-pic>
+										<p>TOP {{ forloop.counter }}</p>
+										<a href="{% url 'photo'%}{{forloop.counter0}}/?city={{ i.city_id_id }}&id={{ i.image_id }}&sort=image_like&data=top5">
+											<img class='top-pic' src='{{ i.image_file.url }}'>
+										</a>
+									</div>
+									{% if forloop.counter == 1 %} <br> {% endif %}
+								{% endfor %}
+							</div>
+						</article>
+
+					<!-- About -->
+						<article id="about">
+							<h2 class="major">About</h2>
+							<span class="image main"><img src="{% static 'images/pic03.jpg' %}" alt="" /></span>
+							<p>
+								<b>#OOTD</b> 는 현재의 날씨 정보와 연결한 OOTD 를 보여줍니다.<br>
+								일기 예보를 봐도 얼마나 껴입어야 하는지 혹은 가볍게 입어도 되는지 감이 오지 않는 경우가 있습니다.
+								<b>#OOTD</b> 에서는 국내 시/군/구 단위로 날씨 정보(현재 날씨, 1시간/2시간 후 날씨) 확인은 물론 해당 지역별 유저들의 실시간 OOTD를 제공합니다.<br>
+								외출 전 입을 옷이 고민될 때, <b>#OOTD</b>를 찾아주세요!
+							</p>
+
+							<h2>만든 사람들</h2>
+							<div style="text-align:center">
+								<p>구혜인</p>
+								<p>김경한</p>
+								<p>류제룡</p>
+								<p>이상지</p>
+							</div>
+						</article>
+
+					<!-- Contact -->
+						<article id="contact">
+							<h2 class="major">Contact</h2>
+							<form method="post" action="#">
+								<div class="fields">
+									<div class="field half">
+										<label for="name">Name</label>
+										<input type="text" name="name" id="name" />
+									</div>
+									<div class="field half">
+										<label for="email">Email</label>
+										<input type="text" name="email" id="email" />
+									</div>
+									<div class="field">
+										<label for="message">Message</label>
+										<textarea name="message" id="message" rows="4"></textarea>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="Send Message" class="primary" /></li>
+									<li><input type="reset" value="Reset" /></li>
+								</ul>
+							</form>
+							<ul class="icons">
+								<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+							</ul>
+						</article>
+
+					<!-- Elements -->
+						<article id="elements">
+							<h2 class="major">Elements</h2>
+
+							<section>
+								<h3 class="major">Text</h3>
+								<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
+								This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
+								This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
+								<hr />
+								<h2>Heading Level 2</h2>
+								<h3>Heading Level 3</h3>
+								<h4>Heading Level 4</h4>
+								<h5>Heading Level 5</h5>
+								<h6>Heading Level 6</h6>
+								<hr />
+								<h4>Blockquote</h4>
+								<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+								<h4>Preformatted</h4>
+								<pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+print 'Iteration ' + i;
+deck.shuffle();
+i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+							</section>
+
+							<section>
+								<h3 class="major">Lists</h3>
+
+								<h4>Unordered</h4>
+								<ul>
+									<li>Dolor pulvinar etiam.</li>
+									<li>Sagittis adipiscing.</li>
+									<li>Felis enim feugiat.</li>
+								</ul>
+
+								<h4>Alternate</h4>
+								<ul class="alt">
+									<li>Dolor pulvinar etiam.</li>
+									<li>Sagittis adipiscing.</li>
+									<li>Felis enim feugiat.</li>
+								</ul>
+
+								<h4>Ordered</h4>
+								<ol>
+									<li>Dolor pulvinar etiam.</li>
+									<li>Etiam vel felis viverra.</li>
+									<li>Felis enim feugiat.</li>
+									<li>Dolor pulvinar etiam.</li>
+									<li>Etiam vel felis lorem.</li>
+									<li>Felis enim et feugiat.</li>
+								</ol>
+								<h4>Icons</h4>
+								<ul class="icons">
+									<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+								</ul>
+
+								<h4>Actions</h4>
+								<ul class="actions">
+									<li><a href="#" class="button primary">Default</a></li>
+									<li><a href="#" class="button">Default</a></li>
+								</ul>
+								<ul class="actions stacked">
+									<li><a href="#" class="button primary">Default</a></li>
+									<li><a href="#" class="button">Default</a></li>
+								</ul>
+							</section>
+
+							<section>
+								<h3 class="major">Table</h3>
+								<h4>Default</h4>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Price</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Item One</td>
+												<td>Ante turpis integer aliquet porttitor.</td>
+												<td>29.99</td>
+											</tr>
+											<tr>
+												<td>Item Two</td>
+												<td>Vis ac commodo adipiscing arcu aliquet.</td>
+												<td>19.99</td>
+											</tr>
+											<tr>
+												<td>Item Three</td>
+												<td> Morbi faucibus arcu accumsan lorem.</td>
+												<td>29.99</td>
+											</tr>
+											<tr>
+												<td>Item Four</td>
+												<td>Vitae integer tempus condimentum.</td>
+												<td>19.99</td>
+											</tr>
+											<tr>
+												<td>Item Five</td>
+												<td>Ante turpis integer aliquet porttitor.</td>
+												<td>29.99</td>
+											</tr>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="2"></td>
+												<td>100.00</td>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+
+								<h4>Alternate</h4>
+								<div class="table-wrapper">
+									<table class="alt">
+										<thead>
+											<tr>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Price</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Item One</td>
+												<td>Ante turpis integer aliquet porttitor.</td>
+												<td>29.99</td>
+											</tr>
+											<tr>
+												<td>Item Two</td>
+												<td>Vis ac commodo adipiscing arcu aliquet.</td>
+												<td>19.99</td>
+											</tr>
+											<tr>
+												<td>Item Three</td>
+												<td> Morbi faucibus arcu accumsan lorem.</td>
+												<td>29.99</td>
+											</tr>
+											<tr>
+												<td>Item Four</td>
+												<td>Vitae integer tempus condimentum.</td>
+												<td>19.99</td>
+											</tr>
+											<tr>
+												<td>Item Five</td>
+												<td>Ante turpis integer aliquet porttitor.</td>
+												<td>29.99</td>
+											</tr>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="2"></td>
+												<td>100.00</td>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+							</section>
+
+							<section>
+								<h3 class="major">Buttons</h3>
+								<ul class="actions">
+									<li><a href="#" class="button primary">Primary</a></li>
+									<li><a href="#" class="button">Default</a></li>
+								</ul>
+								<ul class="actions">
+									<li><a href="#" class="button">Default</a></li>
+									<li><a href="#" class="button small">Small</a></li>
+								</ul>
+								<ul class="actions">
+									<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
+									<li><a href="#" class="button icon solid fa-download">Icon</a></li>
+								</ul>
+								<ul class="actions">
+									<li><span class="button primary disabled">Disabled</span></li>
+									<li><span class="button disabled">Disabled</span></li>
+								</ul>
+							</section>
+
+							<section>
+								<h3 class="major">Form</h3>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<label for="demo-name">Name</label>
+											<input type="text" name="demo-name" id="demo-name" value="" placeholder="Jane Doe" />
+										</div>
+										<div class="field half">
+											<label for="demo-email">Email</label>
+											<input type="email" name="demo-email" id="demo-email" value="" placeholder="jane@untitled.tld" />
+										</div>
+										<div class="field">
+											<label for="demo-category">Category</label>
+											<select name="demo-category" id="demo-category">
+												<option value="">-</option>
+												<option value="1">Manufacturing</option>
+												<option value="1">Shipping</option>
+												<option value="1">Administration</option>
+												<option value="1">Human Resources</option>
+											</select>
+										</div>
+										<div class="field half">
+											<input type="radio" id="demo-priority-low" name="demo-priority" checked>
+											<label for="demo-priority-low">Low</label>
+										</div>
+										<div class="field half">
+											<input type="radio" id="demo-priority-high" name="demo-priority">
+											<label for="demo-priority-high">High</label>
+										</div>
+										<div class="field half">
+											<input type="checkbox" id="demo-copy" name="demo-copy">
+											<label for="demo-copy">Email me a copy</label>
+										</div>
+										<div class="field half">
+											<input type="checkbox" id="demo-human" name="demo-human" checked>
+											<label for="demo-human">Not a robot</label>
+										</div>
+										<div class="field">
+											<label for="demo-message">Message</label>
+											<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="primary" /></li>
+										<li><input type="reset" value="Reset" /></li>
+									</ul>
+								</form>
+							</section>
+
+						</article>
+
+				</div>
+
+			<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+				</footer>
+
+		</div>
+
+	<!-- BG -->
+		<div id="bg"></div>
+
+	<!-- Scripts -->
+		<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+		<script src="{% static 'assets/js/browser.min.js' %}"></script>
+		<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+		<script src="{% static 'assets/js/util.js' %}"></script>
+		<script src="{% static 'assets/js/index.js' %}"></script>
+		<script>
+			window.onload = function() {
+				for(i=0; i < (5 - {{ image_count }}); i++) {
+					$("div.top.info").append(`
+						<div class="top-pic">
+							<p>TOP ${ {{ image_count }} + i + 1}</p>
+							<img class="top-pic" style="filter:invert(100%)" src="{% static 'images/letter-x.png' %}">
+						</div>
+						`);
+
+					if(((5 - {{ image_count }}) == 5) && (i == 0) )
+						$("div.top.info").append('<br>');
+				}
+			}
+
+			var geojson;
+			var click_sido; // 클릭한 시도코드 넣어줄 변수
+
+			// 지도 뿌리기
+			const mymap = L.map('mapid', {
+					scrollWheelZoom: false,
+					dragging: false,
+					zoomControl: false,
+					doubleClickZoom: false
+				}).setView([35.85, 127.9], 7);
+			$
+
+			changeSido(); // 초기화면
+
+			// 선택한 시군구만 컬러 강조 (마지막이 기본값)
+			function getColor(d) {
+				return (d > click_sido) && (d < (click_sido + 1000)) ? "#b3a7be" : "#ffffff";
+				// return (d > click_sido) && (d < (click_sido + 1000)) ? 1 : 0;
+			}
+
+			// 구역컬러 스타일 지정
+			function style(feature) {
+				return {
+					fillColor: getColor(feature.properties.SIG_CD),
+					weight: 2,
+					opacity: 0.7,
+					color: '#d9d9d9',
+					fillOpacity: 1
+				};
+			}
+
+			// hover 시 면적(시도)/경계선(시군구) 강조
+			function highlightFeature(e) {
+				var layer = e.target;
+				var d = Number(layer.feature.properties.SIG_CD);
+
+				if(mymap.getZoom() < 8)
+					layer.setStyle({
+						fillColor: "#b3a7be",
+						weight: 3,
+						color: '#d9d9d9',
+						dashArray: '',
+						fillOpacity: 1
+					});
+				else {
+					var zcolor = (d > click_sido) && (d < (click_sido + 1000)) ? '#997ab8': "#ffffff";
+					layer.setStyle({
+						weight: 3,
+						fillColor: zcolor,
+						dashArray: '',
+						fillOpacity: 1
+					});
+				}
+
+				if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge)
+					layer.bringToFront();
+			}
+
+			function resetHighlight(e) {
+				geojson.resetStyle(e.target);
+			}
+
+			// (시도 영역에서) 클릭 시 해당 영역 줌인
+			function zoomToFeature(e) {
+				if(mymap.getZoom() < 8) {
+					geojson.removeFrom(mymap);
+					mymap.fitBounds(e.target.getBounds());
+
+					changeSigungu();
+				}
+			}
+
+			// 액션과 함수 매칭!
+			function onEachFeature(feature, layer) {
+				layer.on({
+					mouseover: highlightFeature,
+					mouseout: resetHighlight,
+					click: zoomToFeature
+				});
+			}
+
+
+			// 지도 확대 시 sido.geojson 제거
+			mymap.on("zoomend", function(){
+				if(mymap.getZoom() < 8) {
+					geojson.removeFrom(mymap);
+					changeSido();
+				}
+			});
+
+
+			// 지도 홈버튼(줌아웃)
+			var home = { lat: 35.85, lng: 127.9, zoom: 7};
+			var zoomHome = new L.Control.zoomHome();  // geomap.js
+			zoomHome.home = home;
+			zoomHome.addTo(mymap);
+
+
+			var hover_sido;
+			var hover_city;
+			// 시도 기준 구획 나누기
+			function changeSido() {
+				var xhr = new XMLHttpRequest();
+				var data  // 시도 geojson 데이터
+				xhr.onload =  function() {
+					if(xhr.status == 200) {
+						data = JSON.parse(xhr.responseText);
+						geojson = L.geoJson(data, {
+							style: style,
+							onEachFeature: onEachFeature
+						}).addTo(mymap);
+
+						// 해당 구역 시도코드 받아오기
+						geojson.on("click", function(layer){
+							click_sido = Number(layer.layer.feature.properties.CTPRVN_CD)*1000;
+						});
+
+						// 상단 .name-area에 hover된 시도명 표시
+						geojson.on("mouseover", function(layer){
+							hover_sido = layer.layer.feature.properties.CTP_KOR_NM;
+							$(".name-area > h2").text(hover_sido);
+							$(".name-area > span").css("display", "none");
+						});
+						geojson.on("mouseout", function(){
+							$(".name-area > h2").text("지도로 찾기");
+							$(".name-area > span").css("display", "inline");
+						});
+					}
+				}
+				xhr.open("GET", "{{ sido_geo }}", true);
+				xhr.send();
+			}
+
+			// 시군구 기준 구획 나누기
+			function changeSigungu() {
+				var sigungu = new XMLHttpRequest();
+				sigungu.onload =  function() {
+					if(sigungu.status == 200) {
+						var data = JSON.parse(sigungu.responseText);
+						geojson = L.geoJson(data, {
+							style: style,
+							onEachFeature: onEachFeature
+						}).addTo(mymap);
+
+						var lat, lng; // 중심좌표 위경도
+						// 클릭 시 시군구 팝업
+						geojson.addTo(mymap).bindPopup(function (layer) {
+							var click_cd = Number(layer.feature.properties.SIG_CD);  // 클릭한 시군구코드
+							var url = [
+								'{% url "feed"%}?city=' + click_cd,
+								'{% url "upload" %}?city=' + click_cd
+							];
+
+							// 클릭한 시군구의 중심좌표 로드
+							{% for i in city_list %}
+								if({{ i.city_id }} == click_cd) {
+									lat = {{ i.city_lat }};
+									lng = {{ i.city_lng }};
+								}
+							{% endfor %}
+
+							if((click_cd > click_sido) && (click_cd < (click_sido + 1000))){
+								var img = {
+									spinner: "<img src='{% static "images/Rolling.gif" %}' alt='로딩중...' style='width:15px'>",
+									best_img: "<div class='best-pic'><div>"+ layer.feature.properties.SIG_KOR_NM +"의 OOTD가<br>아직 없어요</div></div>"
+								};
+
+								// DB에서 best_img 로드
+								for(i = 0; i < {{ image_count }}; i++) {
+									{% for j in image_list %}
+										if({{ j.city_id_id }} == click_cd) {
+											img.best_img = `
+												<a href="{% url 'photo'%}0/?city={{ j.city_id_id }}&id={{ j.image_id }}&sort=image_cnt&data=cnt">
+													<img class='best-pic' src='{{ j.image_file.url }}'>
+												</a>
+											`
+											break;
+										}
+									{% endfor %}
+								}
+
+								getInfo(layer, img, click_cd, url);  // geomap.js
+								$("#map-popup").attr("class", "active");
+
+								return "";
+							} else {
+								$(".leaflet-popup.leaflet-zoom-animated").attr("style", "display:none");
+								$(".name-area > h2").text("더블클릭하면 지도가 축소됩니다");
+								return "";
+							}
+						});
+
+						// 날씨정보 로드
+						geojson.on("click", function(){
+							if(document.querySelector("div.popup.info table.table"))
+								getWeather(lat, lng);  // weather.js
+						});
+
+						// 상단 .name-area에 hover된 시군구명 추가 표시
+						geojson.on("mouseover", function(layer){
+							var hover_cd = Number(layer.layer.feature.properties.SIG_CD);
+
+							if((hover_cd > click_sido) && (hover_cd < (click_sido + 1000))) {
+								hover_city = layer.layer.feature.properties.SIG_KOR_NM;
+								if(hover_sido != hover_city && $("#map-cover").css("display") == "none")  // 세종시..
+									$(".name-area > h2").append(" " + hover_city);
+							} else {
+								$(".name-area > h2").text("더블클릭하면 지도가 축소됩니다");
+							}
+							
+						});
+
+						geojson.on("mouseout", function(layer){
+							if($("#map-cover").css("display") == "none")
+								$(".name-area > h2").text(hover_sido);
+						});
+
+						// 더블클릭 시 줌아웃 (HOME버튼과 같은 기능)
+						mymap.on("dblclick", function(){
+							mymap.setView([home.lat, home.lng], home.zoom);
+							$(".name-area > h2").text("지도로 찾기");
+						});
+					}
+				}
+				sigungu.open("GET", "{{ sigungu_geo }}", true);
+				sigungu.send();
+			}
+
+
+			// select box (search-bar)
+			{% for i in sido_list %}
+				$("#sido").append("<option value=" + {{ i.sido_id }} + "> {{ i.sido_name }} </option>");
+			{% endfor %}
+
+			function changeSelect() {
+				document.getElementById("city").innerHTML = '<option value="">시군구</option>';
+				var sidoSelect = document.getElementById("sido");
+
+				if (sidoSelect != ""){
+					var sido_val = Number(sidoSelect.options[sidoSelect.selectedIndex].value);
+					{% for i in city_list %}
+						if({{ i.sido_id_id }} == sido_val)
+							$("#city").append("<option value={{ i.city_id }}>{{ i.city_name }}</option>");
+					{% endfor %}
+				}
+			}
+			
+			function goTo(page) {
+				var citySelect = document.getElementById("city");
+
+				var selected_city = Number(citySelect.options[citySelect.selectedIndex].value);
+				if(selected_city != 0) 
+					location.href = page + '?city=' + selected_city;
+			}
+				
+			
+		</script>
+
+</body>
+</html>

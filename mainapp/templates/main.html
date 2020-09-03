@@ -290,7 +290,7 @@
                             {% for j in image_list %}
                                 if({{ j.city_id_id }} == click_cd) {
                                     img.best_img = `
-                                        <a href="{% url 'photo'%}{{forloop.counter0}}/?city={{ j.city_id_id }}&id={{ j.image_id }}&sort=image_cnt&data=">
+                                        <a href="{% url 'photo'%}0/?city={{ j.city_id_id }}&id={{ j.image_id }}&sort=image_cnt&data=today">
                                             <img class='best-pic' src='{{ j.image_file.url }}'>
                                         </a>`;
                                     break;

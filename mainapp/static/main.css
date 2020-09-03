@@ -1,27 +1,58 @@
-section { overflow: hidden;  }
+/* section { overflow: hidden;  } */
 
-/* article.map-area { height: 800px; } */
+/* header(nav) */
 
-h2 { text-align: center; }
+div.top-bar { margin: 50px 0px; }
+
+div.top-bar * {
+    background-color: transparent;
+    text-decoration: none;
+    text-align: center;
+    z-index: 4;
+    border: 0 none;
+    margin: auto;
+}
+
+div.top-bar h1 { margin: 20px auto; }
+
+div.top-bar p { margin: 5px auto; }
+
+
+/* article */
+article.map-area { margin-bottom: 40px;}
+
+article.map-area { 
+    max-height: 670px;
+    overflow: hidden;
+}
+
+h2 { text-align: center; user-select: none;}
 
 div.map-area, div.popup-area > div {
-    width: 100%;
+    width: 95%;
     height: 670px;
 }
 
-#mapid { background-color: white; z-index: 1; }
-
-.leaflet-tile-container {
-    display: none;
+#mapid {
+    z-index: 1;
+    margin: auto;
 }
+
+.leaflet-container {
+    background: none;
+}
+
+div.leaflet-bottom.leaflet-right { display: none; }
 
 #map-cover {
     display: none;
-    background-color: black; 
-    opacity: 0.5;
+    /* background-color: black; 
+    opacity: 0.5; */
     z-index: 2;
     position: relative;
     top: -670px;
+    margin: auto;
+    margin-bottom: 15px;
 }
 
 div.popup-area {
@@ -31,7 +62,7 @@ div.popup-area {
     top: -1340px;
 }
 
-div.popup-area > div { display: table; }
+div.popup-area > div { display: table; margin: auto; }
 
 div.popup-area > div > div { 
     width: 670px;
@@ -40,11 +71,12 @@ div.popup-area > div > div {
 }
 
 #map-popup {
-    background-color: white;
+    background-color: rgba(35, 40, 44, 0.85);
+    border-radius: 10px;
     width: 480px;
     height: 300px;
     margin: 0 auto;
-    opacity: 1.0;
+    opacity: 1;
 }
 
 #map-popup > div { 
@@ -61,19 +93,18 @@ div.popup-area > div > div {
 .leaflet-popup.leaflet-zoom-animated { display: none; }
 
 // zoomHome
-div.gin-control-zoom leaflet-bar.leaflet-control, a.gin-control-zoom-home, a.gin-control-zoom-home:hover {
-    width: 34px;
-    height: 34px;
+div.gin-control-zoom leaflet-bar.leaflet-control, a.gin-control-zoom-home:hover {
+    width: 28px;
+    height: 28px;
     user-select: none;
 }
 
 .name-area { text-align: center; }
+.name-area * { display: inline; }
 
 
-/* 지도 시군구 팝업창 
-div.leaflet-popup-content-wrapper { width: 480px; }
-
-div.popup { width: 480px; }*/
+/* 지도 시군구 팝업창 */
+div.popup *  { font-size: 12pt; }
 
 div.popup.info { 
     display: inline-block;
@@ -82,7 +113,7 @@ div.popup.info {
 
 div.popup.info table.table { 
     width: 240px; 
-    margin-right: 10px;
+    margin: 0px 10px 0px 0px;
     height: 180px;
     float:left; 
     text-align: center;
@@ -92,11 +123,18 @@ div.popup.info table.table * { vertical-align: middle; }
 
 div.popup.info table.table th.first-col { width: 68px; }
 
+div.popup.info table.table th[colspan="2"] { 
+    color: rgba(35, 40, 44, 0.85); 
+    width: 35px;
+}
+
+div.popup.info table.table td { color: #ffffff }
+
 #popup-desc, #popup-temp-h1, #popup-temp-h2 { height: 50px; }
 
 .best-pic {
     width: 180px;
-    height: 180px;
+    height: 185px;
     float:left;
 }
 
@@ -116,88 +154,55 @@ img.weather-pic {
     height: 35px;
 }
 
-div.btn-group button { width: 215px; }
+div.popup.info > button { width: 210px; margin: 15px auto 0px auto;}
 
 
 /* 지역명으로 찾기 */
-article.search-bar { text-align: center;}
+article.search-bar { text-align: center; }
 
-#sido { width: 30%; }
+#sido, #city { display: inline; }
 
-#city { width: 50%; margin: 5px; }
+#sido { width: 20%; }
 
-/* article.search-bar > button {} */
+#city {
+    width: 40%; 
+    margin: 0px 5px; 
+}
+
+article.search-bar button { 
+    vertical-align: top; 
+    margin-left: 5px;
+}
 
 
 /* 하단  수치 현황 */
 article.info { display: block; }
+
+article.info > div.num.info:nth-child(1) { border-right: dotted 1px rgba(255, 255, 255, 0.5);; }
 
 .num.info {
     display: inline-block;
     width: 50%;
     float: left;
     text-align: center;
-    margin-top: 1rem;
+    margin: 70px auto 20px auto;
 }
 
 span.num { font-size: 35px; }
 
 div.top.info { text-align: center; }
 
-div.top.info > a:hover { text-decoration: none; }
+div.top.info a:hover { text-decoration: none; }
+
+/* TOP5 OOTD */
+div.top-pic { display: inline-block; }
+
+div.top-pic p { margin: 10px 0px 0px 0px; }
+
+div.top-pic a { border-bottom: none; }
 
 img.top-pic { 
-    width: 100px; 
-    height:100px;
+    width: 200px; 
+    height: 200px;
     margin: 5px;
 }
-
-
-/* 튜토리얼 영역 */
-svg.bi-question-circle-fill.map, svg.bi-question-circle-fill.search { cursor: pointer; }
-
-section > div:nth-child(2) { position: relative; }
-
-div.tutorial-area { 
-    visibility: hidden;
-    /* background-color: black; */
-    /* opacity: 0.5; */
-    z-index: 3;
-    position: relative;
-    top: 0px;
-    width: 100%;
-}
-
-div.tutorial.tutorial-map, div.tutorial.tutorial-search { 
-    position: relative; 
-    /* width: 250px; */
-    width: 0px;
-    height: 80px;
-    overflow: hidden;
-    text-align: center;
-    background-color: lightgrey;
-    transition: width 1s, height 1s;
-    font-size: small;
-}
-
-
-/* div.tutorial-search, div.tutorial-map { border: 0.07rem dashed blue }
-
-div.tutorial-map > div { 
-    border: 0.1rem solid white;
-    background-color: yellowgreen; 
-    position: relative;
-    width: 25%;
-    margin: 10px;
-    text-align: center;
-    font-size: small;
-}
-
-div.tutorial-search-title { 
-    border: 0.1rem solid white;
-    background-color: yellowgreen; 
-    position: relative;
-    width: 35%;
-    text-align: center;
-    font-size: small;
-} */

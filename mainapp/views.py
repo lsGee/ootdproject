@@ -29,4 +29,4 @@ def main(request) :
         'image_plike': image_plike,
     }
 
-    return render(request, "main.html", context)
+    return render(request, "index.html", context)
