@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		{% load static %}
+		<title>Generic - Phantom by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'phantom/assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'phantom/assets/css/noscript.css' %}" /></noscript>
+		<script>
+    var doubleSubmitFlag = false;
+    function doubleSubmitCheck(){
+        if(doubleSubmitFlag){
+            return doubleSubmitFlag;
+        }else{
+            doubleSubmitFlag = true;
+            return false;
+        }
+    }
+
+    function likeCounter(id) {
+        if(doubleSubmitCheck()) return;
+        $.getJSON("{% url 'likeCount' %}?id="+id, function(jsonObj) {
+            $("p.infoLike").text(jsonObj.like);
+        });
+
+<!--        alert("등록");-->
+    }
+    function dislikeCounter(id) {
+        if(doubleSubmitCheck()) return;
+        $.getJSON("{% url 'dislikeCount' %}?id="+id, function(jsonObj) {
+            $("p.infoDislike").text(jsonObj.dislike);
+        });
+
+<!--        alert("등록");-->
+    }
+</script>
+  <link rel="stylesheet" type="text/css" href="{% static 'photo.css' %}">
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="{% url 'index' %}" class="logo">
+									<span class="symbol"><img src="{% static 'phantom/images/logo.svg' %}" alt="" /></span><span class="title">Phantom</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="{% url 'index' %}">Home</a></li>
+							<li><a href="{% url 'generic' %}">Ipsum veroeros</a></li>
+							<li><a href="{% url 'generic' %}">Tempus etiam</a></li>
+							<li><a href="{% url 'generic' %}">Consequat dolor</a></li>
+							<li><a href="{% url 'elements' %}">Elements</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							{% if imageList %}
+<div class="container">
+  <section>
+    <div class="card" style="width:400px;">
+      <img class="card-img-top" src="{{ imgDetail.image_file.url }}" alt="Card image" style="width:100%">
+        <div class="card-body" style="text-align: center">
+          <h4 class="card-title"></h4>
+            <div id="showInfo">
+              <img id="cntImg" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
+              <p id="cntNum" style="display: inline">{{ imgDetail.image_cnt }}</p>
+              <form method="POST">
+                {% csrf_token %}
+                <div style="display:inline" class="likeform" onclick="likeCounter({{imgDetail.id}});"><img class="but" src="{% static 'images/like.png' %}"></div>
+                <p class="infoLike" style="display: inline">{{ imgDetail.image_like }}</p>
+              </form>
+              <form method="POST">
+                {% csrf_token %}
+                <div style="display:inline" class="likeform" onclick="dislikeCounter({{imgDetail.id}});"><img class="but" src="{% static 'images/dislike.png' %}"></div>
+                <p class="infoDislike" style="display: inline">{{ imgDetail.image_dislike }}</p>
+              </form>
+            </div>
+          <br>
+          <h5>
+            {% if imageList.has_previous %}
+              <a onclick="location.replace('http://localhost:8000/photo/{{ imageList.number|add:-2 }}/?city={{imgDetail.city_id_id}}&sort={{sort}}&data=today')">이전</a>
+              {% endif %}
+              <a  onclick="history.back()" class="">목록</a>
+              {% if imageList.has_next %}
+              <a onclick="location.replace('http://localhost:8000/photo/{{ imageList.number }}/?city={{imgDetail.city_id_id}}&sort={{sort}}&data=today')">다음</a>
+              {% endif %}
+          </h5>
+        </div>
+    </div>
+  </section>
+</div>
+{% elif alist %}
+<div class="container">
+  <section>
+    <div class="card" style="width:400px;">
+      <img class="card-img-top" src="{{ aDetail.image_file.url }}" alt="Card image" style="width:100%">
+        <div class="card-body" style="text-align: center">
+          <h4 class="card-title"></h4>
+            <div id="showInfo2">
+              <img id="cntImg2" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
+              <p id="cntNum2" style="display: inline">{{ aDetail.image_cnt }}</p>
+              <form method="POST">
+                {% csrf_token %}
+                <div style="display:inline" class="likeform" onclick="likeCounter({{aDetail.id}});"><img class="but" src="{% static 'images/like.png' %}"></div>
+                <p class="infoLike" style="display: inline">{{ aDetail.image_like }}</p>
+              </form>
+              <form method="POST">
+                {% csrf_token %}
+                <div style="display:inline" class="likeform" onclick="dislikeCounter({{aDetail.id}});"><img class="but" src="{% static 'images/dislike.png' %}"></div>
+                <p class="infoDislike" style="display: inline">{{ aDetail.image_dislike }}</p>
+              </form>
+            </div>
+          <br>
+          <h5>
+            {% if alist.has_previous %}
+              <a onclick="location.replace('http://localhost:8000/photo/{{ alist.number|add:-2 }}/?city={{aDetail.city_id_id}}&sort={{sort}}&data={{data}}')">이전</a>
+              {% endif %}
+              <a  onclick="history.back()" class="">목록</a>
+              {% if alist.has_next %}
+              <a onclick="location.replace('http://localhost:8000/photo/{{ alist.number }}/?city={{aDetail.city_id_id}}&sort={{sort}}&data={{data}}')">다음</a>
+              {% endif %}
+          </h5>
+        </div>
+    </div>
+  </section>
+</div>
+{% elif blist %}
+<div class="container">
+  <section>
+    <div class="card" style="width:400px;">
+      <img class="card-img-top" src="{{ bDetail.image_file.url }}" alt="Card image" style="width:100%">
+        <div class="card-body" style="text-align: center">
+          <h4 class="card-title"></h4>
+            <div class="showInfo">
+              <img class="cntImg" style="width:30px" src="{% static 'images/cnt.png' %}" title="조회수">
+              <p class="cntNum" style="display: inline">{{ bDetail.image_cnt }}</p>
+              <form method="POST">
+                {% csrf_token %}
+                <div style="display:inline" class="likeform" onclick="likeCounter({{bDetail.id}});"><img class="but" src="{% static 'images/like.png' %}"></div>
+                <p class="infoLike" style="display: inline">{{ bDetail.image_like }}</p>
+              </form>
+              <form method="POST">
+                {% csrf_token %}
+                <div style="display:inline" class="likeform" onclick="dislikeCounter({{bDetail.id}});"><img class="but" src="{% static 'images/dislike.png' %}"></div>
+                <p class="infoDislike" style="display: inline">{{ bDetail.image_dislike }}</p>
+              </form>
+            </div>
+          <br>
+          <h5>
+            {% if blist.has_previous %}
+              <a onclick="location.replace('http://localhost:8000/photo/{{ blist.number|add:-2 }}/?city={{bDetail.city_id_id}}&sort={{sort}}&data={{data}}')">이전</a>
+              {% endif %}
+              <a  onclick="history.back()" class="">목록</a>
+              {% if blist.has_next %}
+              <a onclick="location.replace('http://localhost:8000/photo/{{ blist.number }}/?city={{bDetail.city_id_id}}&sort={{sort}}&data={{data}}')">다음</a>
+              {% endif %}
+          </h5>
+        </div>
+    </div>
+  </section>
+</div>
+{% else %}
+<div style="text-align:center">
+<h1>{{ msg }}</h1>
+</div>
+{% endif %}
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<section>
+								<h2>Get in touch</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<input type="text" name="name" id="name" placeholder="Name" />
+										</div>
+										<div class="field half">
+											<input type="email" name="email" id="email" placeholder="Email" />
+										</div>
+										<div class="field">
+											<textarea name="message" id="message" placeholder="Message"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send" class="primary" /></li>
+									</ul>
+								</form>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+								</ul>
+							</section>
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'phantom/assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'phantom/assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'phantom/assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'phantom/assets/js/util.js' %}"></script>
+			<script src="{% static 'phantom/assets/js/main.js' %}"></script>
+
+	</body>
+</html>
