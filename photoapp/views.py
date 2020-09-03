@@ -28,13 +28,13 @@ def photo(request, list):
             page = request.GET.get('page', list + 1)
             paginator = Paginator(alist, 1)
             aListpage = paginator.get_page(page)
-            context = {"alist": aListpage, "aDetail": aDetail, "sort": sort, "data": data}
+            context = { "alist": aListpage, "aDetail": aDetail, "sort": sort, "data": data }
         except Image.DoesNotExist:
             context = {"msg": "게시물이 존재하지 않습니다."}
 
         return render(request, "photo.html", context)
 
-    elif data == "today" :
+    elif data == "today" or data == "allday" or data == "" :
         try :
             if sort !="" :
                 imageList = Image.objects.filter(city_id_id= city,
@@ -55,7 +55,7 @@ def photo(request, list):
             imageListpage = paginator.get_page(page)
             print(imageListpage)
             print(imageListpage.number)
-            context = { "imageList": imageListpage, "imgDetail": imgDetail, "sort": sort }
+            context = { "imageList": imageListpage, "imgDetail": imgDetail, "sort": sort, "data": data }
 
 
         except Image.DoesNotExist :
@@ -63,14 +63,11 @@ def photo(request, list):
 
         return render(request, "photo.html", context)
 
-    else :
+    elif data == "top5" :
         try:
-            if sort != "":
-                blist = Image.objects.filter(image_date__month=today.month,
-                                             image_date__day=today.day).order_by(sort).reverse()
-            else:
-                blist = Image.objects.filter(image_date__month=today.month,
-                                             image_date__day=today.day).order_by('image_date').reverse()
+            blistA = Image.objects.filter(image_date__month=today.month,
+                                             image_date__day=today.day).order_by('image_like').reverse()
+            blist = blistA[:5]
             bDetail = blist[list]
             bDetail.image_cnt += 1;
             bDetail.save()
@@ -82,6 +79,35 @@ def photo(request, list):
             context = {"msg": "게시물이 존재하지 않습니다."}
 
         return render(request, "photo.html", context)
+
+    elif data == "cnt" :
+        try :
+            if sort !="" :
+                cList = Image.objects.filter(city_id_id= city,
+                                                 image_date__month=today.month,
+                                                 image_date__day=today.day).order_by(sort).reverse()
+            else:
+                cList = Image.objects.filter(city_id_id=city,
+                                                 image_date__month=today.month,
+                                                 image_date__day=today.day).order_by('image_date').reverse()
+
+            cDetail = cList[list]
+            cDetail.image_cnt += 1;
+            cDetail.save()
+            page = request.GET.get('page',list+1)
+            print(cDetail)
+            paginator = Paginator(cList,1)
+            cListpage = paginator.get_page(page)
+            context = { "cList": cListpage, "cDetail": cDetail, "sort": sort, "data": data }
+
+
+        except Image.DoesNotExist :
+            context = { "msg" : "게시물이 존재하지 않습니다." }
+
+        return render(request, "photo.html", context)
+
+    else :
+        return redirect("main")
 
 def likeCount(request) :
     # if request.method == "POST" :
@@ -102,12 +128,3 @@ def dislikeCount(request) :
 
     jsonContent={ "dislike": imgDetail.image_dislike }
     return JsonResponse(jsonContent, json_dumps_params={'ensure_ascii': False})
-
-def index(request) :
-    return render(request, "index.html")
-
-def generic(request) :
-    return render(request, "generic.html")
-
-def elements(request) :
-    return render(request, "elements.html")
