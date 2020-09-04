@@ -107,14 +107,9 @@ def photo(request, list):
 
     elif data == "cnt" :
         try :
-            if sort !="" :
-                cList = Image.objects.filter(city_id_id= city,
-                                             image_date__month=today.month,
-                                             image_date__day=today.day).order_by(sort).reverse()
-            else:
-                cList = Image.objects.filter(city_id_id=city,
-                                             image_date__month=today.month,
-                                             image_date__day=today.day).order_by('image_date').reverse()
+            cList = Image.objects.filter(city_id_id= city,
+                                         image_date__month=today.month,
+                                         image_date__day=today.day).order_by('image_cnt').reverse()
 
             cDetail = cList[list]
             cDetail.image_cnt += 1;
