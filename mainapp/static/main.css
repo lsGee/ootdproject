@@ -1,24 +1,37 @@
-section { overflow: hidden;  }
+/* section { overflow: hidden;  } */
 
 /* article.map-area { height: 800px; } */
 
+p { word-break: keep-all; }
+
+/* 상단 공통 */
+div.top-bar { text-align: center; }
+
+div.top-bar * { margin: 50px auto; }
+
 h2 { text-align: center; }
 
+
+/* 영역 구분선 */
+.map-area hr, .search-bar hr, #about hr { 
+    border-bottom: dotted 1px rgba(255, 255, 255, 0.5); 
+    margin: 60px 0px;
+}
+
+
+/* 지도 영역 */
 div.map-area, div.popup-area > div {
     width: 100%;
     height: 670px;
 }
 
-#mapid { background-color: white; z-index: 1; }
+#mapid { background-color: transparent; z-index: 1; }
 
-.leaflet-tile-container {
-    display: none;
-}
+.leaflet-tile-container, .leaflet-bottom.leaflet-right { display: none; }
 
+/* 지도 팝업창 영역 */
 #map-cover {
     display: none;
-    background-color: black; 
-    opacity: 0.5;
     z-index: 2;
     position: relative;
     top: -670px;
@@ -31,6 +44,28 @@ div.popup-area {
     top: -1340px;
 }
 
+div.popup-area.active {
+    animation-name: appear;
+    animation-duration: 0.5s;
+}
+
+@keyframes appear{
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+div.popup-area.active-c {
+    animation-name: disappear;
+    animation-duration: 0.5s;
+}
+
+@keyframes disappear{
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
+
 div.popup-area > div { display: table; }
 
 div.popup-area > div > div { 
@@ -40,18 +75,22 @@ div.popup-area > div > div {
 }
 
 #map-popup {
-    background-color: white;
+    background-color: rgba(27, 31, 34, 0.85);
+    position: relative;
     width: 480px;
-    height: 300px;
+    height: 330px;
     margin: 0 auto;
-    opacity: 1.0;
+    border-radius: 10px;
 }
 
 #map-popup > div { 
     display: table; 
     width: 480px;
     height: 300px;
+    margin: auto;
 }
+
+#map-popup > div * { font-size: 12pt; }
 
 #map-popup > div > div { 
     display: table-cell; 
@@ -60,21 +99,22 @@ div.popup-area > div > div {
 
 .leaflet-popup.leaflet-zoom-animated { display: none; }
 
-// zoomHome
+/* zoomHome */
 div.gin-control-zoom leaflet-bar.leaflet-control, a.gin-control-zoom-home, a.gin-control-zoom-home:hover {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     user-select: none;
+}
+
+.gin-control-zoom-home > svg {
+    position:relative;
+    top: 2px;
 }
 
 .name-area { text-align: center; }
 
 
-/* 지도 시군구 팝업창 
-div.leaflet-popup-content-wrapper { width: 480px; }
-
-div.popup { width: 480px; }*/
-
+/* 지도 시군구 팝업창*/
 div.popup.info { 
     display: inline-block;
     margin: 0 25px;
@@ -82,15 +122,21 @@ div.popup.info {
 
 div.popup.info table.table { 
     width: 240px; 
-    margin-right: 10px;
+    margin: 0px 10px 10px 0px;
     height: 180px;
     float:left; 
     text-align: center;
 }
 
-div.popup.info table.table * { vertical-align: middle; }
+div.popup.info table.table * { 
+    vertical-align: middle; 
+    text-align: center;
+    padding: 0px;
+}
 
-div.popup.info table.table th.first-col { width: 68px; }
+table.table tbody > tr:nth-child(1) { background-color: rgba(153, 153, 153, 0.3); }
+
+div.popup.info table.table th.first-col { width: 40%; }
 
 #popup-desc, #popup-temp-h1, #popup-temp-h2 { height: 50px; }
 
@@ -116,17 +162,40 @@ img.weather-pic {
     height: 35px;
 }
 
-div.btn-group button { width: 215px; }
+div.btn-group button { width: 213px;}
+
+
+/* 팝업창 내 Close */
+#map-popup div.close { 
+    float: right; 
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23ffffff%3B stroke-width: 1%3B %7D%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18' /%3E%3Cline x1='18' y1='2' x2='2' y2='18' /%3E%3C/svg%3E");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    position: relative;
+    top: 0px;
+    left: auto;
+    margin-right: 5px;
+}
 
 
 /* 지역명으로 찾기 */
-article.search-bar { text-align: center;}
+article.search-bar { text-align: center; }
 
-#sido { width: 30%; }
+article.search-bar > div {padding: 20px 0px; }
 
-#city { width: 50%; margin: 5px; }
+#sido, #city { 
+    display: inline; 
+    margin: 30px 5px 0px 0px; 
+}
 
-/* article.search-bar > button {} */
+#sido { width: 25%; }
+
+#city { width: 35%; }
+
+article.search-bar button { 
+    vertical-align: top;
+    margin: 30px 5px 0px 0px; 
+}
 
 
 /* 하단  수치 현황 */
@@ -139,65 +208,37 @@ article.info { display: block; }
     text-align: center;
     margin-top: 1rem;
 }
+article.info > .num.info:nth-child(1) { border-right: dotted 1px rgba(255, 255, 255, 0.5); }
 
 span.num { font-size: 35px; }
 
+
+/* TOP5 OOTD */
 div.top.info { text-align: center; }
+
+div.top.info * { user-select: none; }
+
+div.top.info > div { 
+    display: inline-block; 
+    width: 40%;
+    margin: 15px 10px; 
+}
+
+div.top.info > div > p { margin: 5px; }
 
 div.top.info > a:hover { text-decoration: none; }
 
 img.top-pic { 
-    width: 100px; 
-    height:100px;
+    width: 100%; 
+    height: 100%;
     margin: 5px;
 }
 
 
-/* 튜토리얼 영역 */
-svg.bi-question-circle-fill.map, svg.bi-question-circle-fill.search { cursor: pointer; }
+/* ABOUT */
+#about div.members { text-align: center; }
 
-section > div:nth-child(2) { position: relative; }
-
-div.tutorial-area { 
-    visibility: hidden;
-    /* background-color: black; */
-    /* opacity: 0.5; */
-    z-index: 3;
-    position: relative;
-    top: 0px;
-    width: 100%;
+#about div.members > div {  
+    display: inline-block;
+    width: 45%;
 }
-
-div.tutorial.tutorial-map, div.tutorial.tutorial-search { 
-    position: relative; 
-    /* width: 250px; */
-    width: 0px;
-    height: 80px;
-    overflow: hidden;
-    text-align: center;
-    background-color: lightgrey;
-    transition: width 1s, height 1s;
-    font-size: small;
-}
-
-
-/* div.tutorial-search, div.tutorial-map { border: 0.07rem dashed blue }
-
-div.tutorial-map > div { 
-    border: 0.1rem solid white;
-    background-color: yellowgreen; 
-    position: relative;
-    width: 25%;
-    margin: 10px;
-    text-align: center;
-    font-size: small;
-}
-
-div.tutorial-search-title { 
-    border: 0.1rem solid white;
-    background-color: yellowgreen; 
-    position: relative;
-    width: 35%;
-    text-align: center;
-    font-size: small;
-} */
