@@ -231,7 +231,7 @@ div.top.info * { user-select: none; }
 
 div.top.info > div { 
     display: inline-block; 
-    width: 40%;
+    width: 224px;
     margin: 15px 10px; 
 }
 
