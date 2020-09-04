@@ -142,17 +142,22 @@ div.popup.info table.table th.first-col { width: 40%; }
 
 .best-pic {
     width: 180px;
-    height: 180px;
     float:left;
 }
 
-div.best-pic {
+div.best-pic { 
+    display: inline;
+    height: 180px; 
+    overflow:hidden;
+}
+
+div.best-pic.none {
     border: 0.02rem solid #d9d9d9;
     text-align: center;
     display: table;
 }
 
-div.best-pic > div {
+div.best-pic.none > div {
     display: table-cell;
     vertical-align: middle;
 }
@@ -188,9 +193,15 @@ article.search-bar > div {padding: 20px 0px; }
     margin: 30px 5px 0px 0px; 
 }
 
-#sido { width: 25%; }
+#sido { 
+    width: 25%; 
+    min-width: 96px;
+}
 
-#city { width: 35%; }
+#city { 
+    width: 35%; 
+    min-width: 114px;
+}
 
 article.search-bar button { 
     vertical-align: top;
@@ -225,14 +236,34 @@ div.top.info > div {
 }
 
 div.top.info > div > p { margin: 5px; }
-
-div.top.info > a:hover { text-decoration: none; }
-
-img.top-pic { 
-    width: 100%; 
-    height: 100%;
-    margin: 5px;
+div.top.info > div > div {
+    border-radius: 4px;
+    width: 224px;
+    overflow: hidden;
+    margin: 0 auto;
 }
+
+div.top.info a {
+    display: block;
+    position: relative;
+    width: 224px;
+    height: 224px;
+    overflow: hidden;
+}
+
+div.top.info a:hover { text-decoration: none; }
+
+img.top-pic {
+    border-radius: 4px;
+    height: 100%;
+    position: absolute;
+    white-space: nowrap;
+    overflow: hidden;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+}
+
+div.top.info a { border-bottom: dotted 1px rgba(255, 255, 255, 0); }
 
 
 /* ABOUT */
@@ -241,4 +272,9 @@ img.top-pic {
 #about div.members > div {  
     display: inline-block;
     width: 45%;
+}
+
+#about div.members > div > img {
+    width: 100%;
+    user-select: none;
 }
