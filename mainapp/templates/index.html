@@ -167,7 +167,7 @@
 					$("div.top.info").append(`
 						<div>
 							<p>Top ` + ({{ image_count }} + i + 1) + `<br><br></p>
-							<img class="top-pic" src="{% static 'images/letter-x.png' %}" style="filter: invert(100%);">
+							<div><a style="user-select:none"><img class="top-pic" src="{% static 'images/letter-x.png' %}" style="filter: invert(100%);"></a></div>
 						</div>`);
 					if(({{ image_count }} == 0) && (i == 0) )
 						$("div.top.info").append("<br>");
