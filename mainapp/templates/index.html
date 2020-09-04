@@ -12,11 +12,11 @@
 			crossorigin=""></script>
 
 		{% load static %}
-		<link rel="stylesheet" href="{% static 'assets/css/index.css' %}" />
-		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+		<link rel="stylesheet" href="{% static 'assets_main/css/index.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets_main/css/noscript.css' %}" /></noscript>
 		<script type="text/javascript" src="{% static 'weather.js' %}"></script>
-		<script type="text/javascript" src="{% static 'main.js' %}"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+		<script type="text/javascript" src="{% static 'main_main.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'main_main.css' %}">
 	</head>
 	<body class="is-preload">
 		<div id="wrapper">
@@ -107,7 +107,7 @@
 			<!-- About -->
 				<article id="about">
 					<h2 class="major">About</h2>
-					<span class="image main"><img src="{% static 'images/about_pic.jpg' %}" alt="" /></span>
+					<span class="image main"><img src="{% static 'images_main/about_pic.jpg' %}" alt="" /></span>
 					<p><b>#OOTD</b>는 패션 블로거, 셀럽 위주였던 기존의 OOTD(Outfit of the day)에 지역 날씨 정보를 결합해 실용성을 추구하고자 합니다.</p>
 					<p>일기예보만 보고 어느 정도로 옷을 껴입어야 하는지 또는 가볍게 입어도 되는지 감이 오지 않는 경우가 종종 있습니다.
 					<b>#OOTD</b>에서는 국내 시/군/구 단위별로 실시간 날씨 정보를 제공하고, 해당 지역별 사용자들이 올려놓은 OOTD을 구경할 수 있습니다.<br>
@@ -119,22 +119,22 @@
 					<h3 class="major">만든 사람들</h3>
 					<div class="members">
 						<div>
-							<img src="{% static 'images/profile1.png' %}">
+							<img src="{% static 'images_main/profile1.png' %}">
 							<p><b>구혜인</b></p>
 						</div>
 
 						<div>
-							<img src="{% static 'images/profile2.png' %}">
+							<img src="{% static 'images_main/profile2.png' %}">
 							<p><b>김경한</b></p>
 						</div>
 
 						<div>
-							<img src="{% static 'images/profile3.png' %}">
+							<img src="{% static 'images_main/profile3.png' %}">
 							<p><b>류제룡</b></p>
 						</div>
 
 						<div>
-							<img src="{% static 'images/profile4.png' %}">
+							<img src="{% static 'images_main/profile4.png' %}">
 							<p><b>이상지</b></p>
 						</div>
 					</div>
@@ -154,11 +154,11 @@
 		
 
 		<!-- Scripts -->
-		<script src="{% static 'assets/js/jquery.min.js' %}"></script>
-		<script src="{% static 'assets/js/browser.min.js' %}"></script>
-		<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
-		<script src="{% static 'assets/js/util.js' %}"></script>
-		<script src="{% static 'assets/js/index.js' %}"></script>
+		<script src="{% static 'assets_main/js/jquery.min.js' %}"></script>
+		<script src="{% static 'assets_main/js/browser.min.js' %}"></script>
+		<script src="{% static 'assets_main/js/breakpoints.min.js' %}"></script>
+		<script src="{% static 'assets_main/js/util.js' %}"></script>
+		<script src="{% static 'assets_main/js/index.js' %}"></script>
 
 		<script>
 			window.onload = function() {
@@ -167,7 +167,7 @@
 					$("div.top.info").append(`
 						<div>
 							<p>Top ` + ({{ image_count }} + i + 1) + `<br><br></p>
-							<div><a style="user-select:none"><img class="top-pic" src="{% static 'images/letter-x.png' %}" style="filter: invert(100%);"></a></div>
+							<div><a style="user-select:none"><img class="top-pic" src="{% static 'images_main/letter-x.png' %}" style="filter: invert(100%);"></a></div>
 						</div>`);
 					if(({{ image_count }} == 0) && (i == 0) )
 						$("div.top.info").append("<br>");
@@ -295,7 +295,7 @@
 		
 			// 지도 홈버튼(줌아웃)
 			var home = { lat: 35.85, lng: 127.9, zoom: 7};
-			var zoomHome = new L.Control.zoomHome();  // geomap.js
+			var zoomHome = new L.Control.zoomHome();  // main_main.js
 			zoomHome.home = home;
 			zoomHome.addTo(mymap);
 		
@@ -363,7 +363,7 @@
 							
 							if((click_cd > click_sido) && (click_cd < (click_sido + 1000))){
 								var img = {
-									spinner: "<img src='{% static "images/Rolling.gif" %}' alt='로딩중...' style='width:15px'>",
+									spinner: "<img src='{% static "images_main/Rolling.gif" %}' alt='로딩중...' style='width:15px'>",
 									best_img: "<div class='best-pic none'><div>"+ layer.feature.properties.SIG_KOR_NM +"의 OOTD가<br>아직 없어요</div></div>"
 								};
 								
@@ -382,7 +382,7 @@
 									{% endfor %}
 								}
 		
-								getInfo(layer, img, click_cd, url);  // geomap.js
+								getInfo(layer, img, click_cd, url);  // main_main.js
 								
 								return "";
 							} else {
