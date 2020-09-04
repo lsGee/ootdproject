@@ -24,7 +24,7 @@ def main(request) :
         'sido_list': Sido.objects.all(),
         'city_list': City.objects.all(),
         'image_list': todayImg.order_by("city_id", "-image_cnt"),
-        'image_list_like': todayImg.order_by("city_id", "-image_like")[:5],
+        'image_list_like': todayImg.order_by("-image_like")[:5],
         'image_count': todayImg.count(),
         'image_plike': image_plike,
     }
