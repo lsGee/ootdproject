@@ -147,6 +147,7 @@ div.popup.info table.table th.first-col { width: 40%; }
 
 div.best-pic { 
     display: inline;
+    width:180px;
     height: 180px; 
     overflow:hidden;
 }
@@ -160,6 +161,23 @@ div.best-pic.none {
 div.best-pic.none > div {
     display: table-cell;
     vertical-align: middle;
+}
+
+div.best-pic > a > div {
+    overflow: hidden;
+    width: 180px;
+    height: 180px;
+    position: relative;
+}
+
+img.best-pic {
+    width: initial;
+    height: 180px;
+    position: absolute;
+    white-space: nowrap;
+    overflow: hidden;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
 }
 
 img.weather-pic {
