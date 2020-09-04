@@ -374,7 +374,7 @@
 											img.best_img = `
 												<div class='best-pic'>
 													<a href="{% url 'photo'%}0/?city={{ j.city_id_id }}&id={{ j.image_id }}&sort=image_cnt&data=cnt">
-														<img class='best-pic' src='{{ j.image_file.url }}'>
+														<div><img class='best-pic' src='{{ j.image_file.url }}'></div>
 													</a>
 												</div>`;
 											break;
