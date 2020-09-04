@@ -1,33 +1,80 @@
-{% extends "base.html"%}
-{% block title %}
-upload ootd
-{% endblock %}
+<!DOCTYPE HTML>
+<html lang="ko">
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>OOTD UPLOAD</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+		{% load static %}
 
-{% block head %}
-<!-- head에 들어갈 태그들(본인 페이지 전용 css, js 파일 등) 넣어주세여 -->
-<!-- 전체 폰트, 부트스트랩, 제이쿼리 링크는 base.html에 있으니까 안 써줘도 돼요 -->
-<!-- 예시(아래) -->
-<!--{% load static %}-->
-<!--<link rel="stylesheet" type="text/css" href="{% static 'seoul_seg.css' %}"> &ndash;&gt;-->
-{% endblock%}
-{% block body %}
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/main.css' %}" >
+		<noscript><link rel="stylesheet" type="text/css" href="{% static 'assets/css/noscript.css' %}" ></noscript>
 
-  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<body>
-    <article class="search-bar">
-        <h3>지역 검색</h3>
-        <select id="sido" name="sido" onchange="changeSelect()">
+
+		<script type="text/javascript" src="{% static 'weather.js' %}"></script>
+
+	</head>
+
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a onclick="location.href='{% url "main" %}'" class="logo">
+									{% load static %}
+									<span class="symbol"><img src="{% static 'images/logo.svg' %}" alt="" /></span><span class="title">OOTD</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="generic.html">Ipsum veroeros</a></li>
+							<li><a href="generic.html">Tempus etiam</a></li>
+							<li><a href="generic.html">Consequat dolor</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+					</nav>
+				<center>
+				<!-- Main -->
+					<div id="main">
+						<article class="search-bar">
+        <h3>직접 지역 검색을 원하실 경우 시,시군구를 골라 주세요</h3>
+
+        <select id="sido" name="sido" onchange="changeSelect()" align="center">
             <option value="">시 선택</option>
         </select>
         <select id="city" name="city" onchange="changeCity()">
             <option value="">시군구 선택</option>
         </select>
+
     </article>
     <center>
     <table border="1">
-        <hr>
+
     <tr>
-      <th align="center" bgcolor="gray" width="500px">첨부파일 미리보기</th>
+      <td align="center" bgcolor="gray" width="500px">파일 미리보기</td>
     </tr>
     <tr>
       <td align="center">
@@ -38,28 +85,53 @@ upload ootd
   </table>
         <br>
 </center>
- </body>
-</html>
+
+
 <center>
 
     {% if upload.photo %}
         <h2>작성자 이름 : {{ image.image_name }}</h2>
         <p>path :{{ image.image_file.path }}</p>
         <p>url : {{ image.image_file.url }}</p>
-        <img src="{{ image.image_file.url }}" width="200" alt="">
+        <img src="{{ image.image_file.url }}" width="100" alt="100">
 
     {% else %}
         <form method="post"  action="{% url 'upload' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <p>작성자 이름 : <input type="text" name="image_name"> city : <input id=cityid name="city_id"> sido : <input id=sidoid name="sido_id"></p>
+            <p>작성자 이름  ▼ <input type="text" name="image_name">
+				city : <input id=cityid name="city_id">
+				sido : <input id=sidoid name="sido_id"></p>
             최종 선택 : <input type="file" name="image_file">
             <input type="submit" value="전송" onclick="location.href='{% url "upload" %}">
         </form>
     {% endif %}
 </center>
 
+					</div>
 
-    <script>
+			</div>
+<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+</center>
+
+		<!-- Scripts -->
+			{% load static %}
+
+			<script href="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script href="{% static 'assets/js/browser.min.js' %}"></script>
+			<script href="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script href="{% static 'assets/js/util.js' %}"></script>
+			<script href="{% static 'assets/js/main.js' %}"></script>
+
+
+			<script>
         document.getElementById('cityid').value = getUrlParams().city;
 
         // select box (search-bar)
@@ -168,4 +240,6 @@ upload ootd
     }
   });
 </script>
-{% endblock %}
+
+	</body>
+</html>
