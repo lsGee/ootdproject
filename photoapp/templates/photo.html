@@ -138,7 +138,7 @@
          <div class="d-flex justify-content-between mt-70" style="position:relative">
              {% if imageList.has_previous %}
              <div>
-                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ imageList.number|add:-2 }}/?city={{imgDetail.city_id_id}}&id={{imgDetail.id}}&sort={{sort}}&data=today')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
+                 <a class="blog-post-btn" onclick="location.replace('/photo/{{ imageList.number|add:-2 }}/?city={{imgDetail.city_id_id}}&id={{imgDetail.id}}&sort={{sort}}&data=today')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
              </div>
              {% endif %}
              <div class="category">
@@ -146,7 +146,7 @@
              </div>
              {% if imageList.has_next %}
              <div>
-                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ imageList.number }}/?city={{imgDetail.city_id_id}}&id={{imgDetail.id}}&sort={{sort}}&data=today')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
+                 <a class="blog-post-btn" onclick="location.replace('/photo/{{ imageList.number }}/?city={{imgDetail.city_id_id}}&id={{imgDetail.id}}&sort={{sort}}&data=today')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
              </div>
              {% endif %}
          </div>
@@ -173,7 +173,7 @@
          <div class="d-flex justify-content-between mt-70" style="position:relative">
              {% if alist.has_previous %}
              <div>
-                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ alist.number|add:-2 }}/?city={{aDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
+                 <a class="blog-post-btn" onclick="location.replace('/photo/{{ alist.number|add:-2 }}/?city={{aDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
              </div>
              {% endif %}
              <div class="category">
@@ -181,7 +181,7 @@
              </div>
              {% if alist.has_next %}
              <div>
-                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ alist.number }}/?city={{aDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
+                 <a class="blog-post-btn" onclick="location.replace('/photo/{{ alist.number }}/?city={{aDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
              </div>
              {% endif %}
          </div>
@@ -208,7 +208,7 @@
          <div class="d-flex justify-content-between mt-70" style="position:relative">
              {% if blist.has_previous %}
              <div>
-                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ blist.number|add:-2 }}/?city={{bDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
+                 <a class="blog-post-btn" onclick="location.replace('/photo/{{ blist.number|add:-2 }}/?city={{bDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
              </div>
              {% endif %}
              <div class="category">
@@ -216,7 +216,7 @@
              </div>
              {% if blist.has_next %}
              <div>
-                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ blist.number }}/?city={{bDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
+                 <a class="blog-post-btn" onclick="location.replace('/photo/{{ blist.number }}/?city={{bDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
              </div>
              {% endif %}
          </div>
@@ -243,7 +243,7 @@
          <div class="d-flex justify-content-between mt-70" style="position:relative">
              {% if cList.has_previous %}
              <div>
-                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ cList.number|add:-2 }}/?city={{cDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
+                 <a class="blog-post-btn" onclick="location.replace('/photo/{{ cList.number|add:-2 }}/?city={{cDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; left:0;"><span class="ti-arrow-left"></span></a>
              </div>
              {% endif %}
              <div class="category">
@@ -251,7 +251,7 @@
              </div>
              {% if cList.has_next %}
              <div>
-                 <a class="blog-post-btn" onclick="location.replace('http://localhost:8000/photo/{{ cList.number }}/?city={{cDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
+                 <a class="blog-post-btn" onclick="location.replace('/photo/{{ cList.number }}/?city={{cDetail.city_id_id}}&sort={{sort}}&data={{data}}')" style="position:absolute; right:0;"><span class="ti-arrow-right"></span></a>
              </div>
              {% endif %}
          </div>
