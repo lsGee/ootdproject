@@ -183,21 +183,22 @@
 				$(window).resize(function() {
 					var map_width = document.querySelector("div.popup-area").offsetWidth;
 					var screenX = window.screen.width;
-					if(screenX < 685) 
+					if(screenX < 680)
 						$("article.map-area").css("display", "none");
 					else
 						$("article.map-area").css("display", "block");
 				});
 
-				var map_width = document.querySelector("article.map-area").offsetWidth;
-				if(map_width <= 500) 
+				var screenX = window.screen.width;
+				if(screenX < 680)
 					$("article.map-area").css("display", "none");
-
+				else
+					$("article.map-area").css("display", "block");
 			}
 		
 			var geojson;
 			var click_sido; // 클릭한 시도코드 넣어줄 변수
-		
+
 			// 지도 뿌리기
 			const mymap = L.map('mapid', {
 					scrollWheelZoom: false,
@@ -212,8 +213,8 @@
 					'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
 				id: 'mapbox.streets'
 			}).addTo(mymap);
-		
-			
+
+
 			changeSido(); // 초기화면
 		
 			// 선택한 시군구만 컬러 강조 (마지막이 기본값)
